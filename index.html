@@ -15,22 +15,60 @@
     --danger-light: #fee2e2;
     --warning: #d97706;
     --warning-light: #fef3c7;
+    --bg: #f5f3ff;
     --surface: #ffffff;
     --surface-alt: #f8f7ff;
     --border: #e5e7eb;
     --text: #111827;
     --text-muted: #6b7280;
+    --extract-bg: #f9fafb;
+    --extract-border: #d1d5db;
+    --extract-color: #374151;
+    --kw-chip-bg: #f3f4f6;
+    --kw-chip-color: #374151;
+    --drop-bg: #f9fafb;
+    --tab-bg: #f3f4f6;
+    --tab-active-bg: #ffffff;
     --radius: 10px;
   }
+  .dark {
+    --accent: #818cf8;
+    --accent-light: #1e1b4b;
+    --accent-dark: #a5b4fc;
+    --success: #34d399;
+    --success-light: #064e3b;
+    --danger: #f87171;
+    --danger-light: #450a0a;
+    --warning: #fbbf24;
+    --warning-light: #451a03;
+    --bg: #0f0f1a;
+    --surface: #1a1a2e;
+    --surface-alt: #16213e;
+    --border: #2d2d4e;
+    --text: #e2e8f0;
+    --text-muted: #94a3b8;
+    --extract-bg: #16213e;
+    --extract-border: #2d2d4e;
+    --extract-color: #cbd5e1;
+    --kw-chip-bg: #1e1b4b;
+    --kw-chip-color: #c7d2fe;
+    --drop-bg: #16213e;
+    --tab-bg: #1a1a2e;
+    --tab-active-bg: #2d2d4e;
+  }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f3ff; color: var(--text); font-size: 15px; line-height: 1.6; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.6; transition: background .2s, color .2s; }
 
   /* NAV */
-  nav { background: #fff; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+  nav { background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; transition: background .2s; }
   .nav-inner { max-width: 960px; margin: auto; display: flex; align-items: center; gap: 4px; padding: 0 16px; height: 52px; overflow-x: auto; }
   .nav-tab { padding: 6px 14px; border-radius: 8px; border: none; background: none; cursor: pointer; font-size: 13px; font-weight: 500; color: var(--text-muted); white-space: nowrap; transition: all .15s; }
   .nav-tab:hover { background: var(--accent-light); color: var(--accent); }
   .nav-tab.active { background: var(--accent); color: #fff; }
+
+  /* TOGGLE DARK MODE */
+  .theme-toggle { margin-left: auto; background: var(--surface-alt); border: 1.5px solid var(--border); border-radius: 20px; padding: 4px 12px; cursor: pointer; font-size: 13px; color: var(--text-muted); display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all .15s; flex-shrink: 0; }
+  .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
 
   /* LAYOUT */
   .page { display: none; max-width: 960px; margin: auto; padding: 28px 16px 60px; }
@@ -39,7 +77,7 @@
   h2 { font-size: 17px; font-weight: 600; margin-bottom: 12px; color: var(--accent-dark); }
   h3 { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
   .subtitle { color: var(--text-muted); font-size: 14px; margin-bottom: 28px; }
-  .card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 16px; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 16px; }
   .badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 20px; letter-spacing: .3px; }
 
   /* COLORES POR MARCO */
@@ -60,29 +98,29 @@
   .m-marco    { background: #fafaf0; color: #713f12; }
 
   /* PRÁCTICA — extractos */
-  .extract-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 20px; }
+  .extract-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 20px; }
   .extract-meta { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: .5px; }
-  .extract-text { font-size: 14px; line-height: 1.75; color: #374151; background: #f9fafb; border-left: 3px solid #d1d5db; padding: 12px 16px; border-radius: 0 6px 6px 0; margin-bottom: 14px; font-style: italic; }
+  .extract-text { font-size: 14px; line-height: 1.75; color: var(--extract-color); background: var(--extract-bg); border-left: 3px solid var(--extract-border); padding: 12px 16px; border-radius: 0 6px 6px 0; margin-bottom: 14px; font-style: italic; }
   .options-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
-  .opt-btn { padding: 7px 14px; border-radius: 8px; border: 1.5px solid var(--border); background: #fff; cursor: pointer; font-size: 13px; font-weight: 500; transition: all .15s; color: var(--text); }
+  .opt-btn { padding: 7px 14px; border-radius: 8px; border: 1.5px solid var(--border); background: var(--surface); cursor: pointer; font-size: 13px; font-weight: 500; transition: all .15s; color: var(--text); }
   .opt-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
   .opt-btn.correct { background: var(--success-light); border-color: var(--success); color: var(--success); }
   .opt-btn.wrong { background: var(--danger-light); border-color: var(--danger); color: var(--danger); }
-  .opt-btn.reveal { background: #fffbeb; border-color: var(--warning); color: var(--warning); }
+  .opt-btn.reveal { background: var(--warning-light); border-color: var(--warning); color: var(--warning); }
   .feedback { font-size: 13px; padding: 10px 14px; border-radius: 8px; margin-top: 8px; display: none; }
   .feedback.ok { background: var(--success-light); color: var(--success); display: block; }
   .feedback.fail { background: var(--danger-light); color: var(--danger); display: block; }
-  .progress-bar { height: 6px; background: #e5e7eb; border-radius: 3px; margin-bottom: 20px; overflow: hidden; }
+  .progress-bar { height: 6px; background: var(--border); border-radius: 3px; margin-bottom: 20px; overflow: hidden; }
   .progress-fill { height: 100%; background: var(--accent); border-radius: 3px; transition: width .3s; }
   .score-box { background: var(--accent-light); border-radius: var(--radius); padding: 14px 20px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
   .score-num { font-size: 22px; font-weight: 700; color: var(--accent); }
   .filter-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
-  .filter-btn { padding: 5px 12px; border-radius: 20px; border: 1.5px solid var(--border); background: #fff; cursor: pointer; font-size: 12px; font-weight: 500; color: var(--text-muted); transition: all .15s; }
+  .filter-btn { padding: 5px 12px; border-radius: 20px; border: 1.5px solid var(--border); background: var(--surface); cursor: pointer; font-size: 12px; font-weight: 500; color: var(--text-muted); transition: all .15s; }
   .filter-btn:hover, .filter-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
 
   /* DOCUMENTACIÓN */
   .doc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-bottom: 24px; }
-  .doc-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
+  .doc-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
   .doc-card h3 { font-size: 14px; margin-bottom: 6px; }
   .doc-card p { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
   .doc-card .ubicacion { font-size: 11px; margin-top: 8px; font-weight: 600; letter-spacing: .3px; }
@@ -91,16 +129,16 @@
   /* PALABRAS CLAVE */
   .kw-section { margin-bottom: 28px; }
   .kw-grid { display: flex; flex-wrap: wrap; gap: 8px; }
-  .kw-chip { display: flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 500; background: #f3f4f6; color: #374151; border: 1px solid var(--border); }
+  .kw-chip { display: flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 500; background: var(--kw-chip-bg); color: var(--kw-chip-color); border: 1px solid var(--border); }
   .kw-chip .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .kw-search { width: 100%; padding: 10px 14px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 14px; margin-bottom: 16px; outline: none; transition: border-color .15s; }
+  .kw-search { width: 100%; padding: 10px 14px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 14px; margin-bottom: 16px; outline: none; transition: border-color .15s; background: var(--surface); color: var(--text); }
   .kw-search:focus { border-color: var(--accent); }
 
   /* JUEGOS */
-  .game-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; }
+  .game-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; }
   .drag-word { display: inline-block; padding: 5px 12px; background: var(--accent-light); color: var(--accent-dark); border-radius: 6px; font-size: 13px; font-weight: 600; cursor: grab; margin: 4px; border: 1.5px dashed var(--accent); user-select: none; transition: transform .1s; }
   .drag-word:active { cursor: grabbing; transform: scale(1.05); }
-  .drop-zone { display: inline-block; min-width: 130px; min-height: 32px; border: 2px dashed #d1d5db; border-radius: 6px; padding: 4px 10px; margin: 4px; vertical-align: middle; background: #f9fafb; font-size: 13px; font-weight: 600; transition: all .15s; }
+  .drop-zone { display: inline-block; min-width: 130px; min-height: 32px; border: 2px dashed var(--border); border-radius: 6px; padding: 4px 10px; margin: 4px; vertical-align: middle; background: var(--drop-bg); font-size: 13px; font-weight: 600; transition: all .15s; color: var(--text); }
   .drop-zone.over { border-color: var(--accent); background: var(--accent-light); }
   .drop-zone.filled { border-style: solid; }
   .drop-zone.correct-drop { border-color: var(--success); background: var(--success-light); color: var(--success); }
@@ -109,7 +147,7 @@
   .btn { padding: 9px 20px; border-radius: 8px; border: none; cursor: pointer; font-size: 14px; font-weight: 600; transition: all .15s; }
   .btn-primary { background: var(--accent); color: #fff; }
   .btn-primary:hover { background: var(--accent-dark); }
-  .btn-outline { background: #fff; color: var(--accent); border: 1.5px solid var(--accent); }
+  .btn-outline { background: var(--surface); color: var(--accent); border: 1.5px solid var(--accent); }
   .btn-outline:hover { background: var(--accent-light); }
   .btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
   .stars { font-size: 24px; text-align: center; margin: 10px 0; }
@@ -118,10 +156,13 @@
   /* ESTRUCTURA VISUAL */
   .flow-diagram { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 16px 0; }
   .flow-box { padding: 8px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; text-align: center; border: 1.5px solid; }
-  .flow-arrow { color: #9ca3af; font-size: 18px; }
-  .tab-group { display: flex; gap: 2px; margin-bottom: 16px; background: #f3f4f6; padding: 3px; border-radius: 8px; }
+  .flow-arrow { color: var(--text-muted); font-size: 18px; }
+  .tab-group { display: flex; gap: 2px; margin-bottom: 16px; background: var(--tab-bg); padding: 3px; border-radius: 8px; }
   .tab-item { flex: 1; padding: 8px; border: none; background: none; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; color: var(--text-muted); transition: all .15s; }
-  .tab-item.active { background: #fff; color: var(--accent); box-shadow: 0 1px 3px rgba(0,0,0,.1); }
+  .tab-item.active { background: var(--tab-active-bg); color: var(--accent); box-shadow: 0 1px 3px rgba(0,0,0,.15); }
+
+  /* FLASH CARD dark */
+  #flash-card { background: var(--extract-bg) !important; color: var(--extract-color) !important; border-color: var(--border) !important; }
 </style>
 </head>
 <body>
@@ -133,6 +174,9 @@
     <button class="nav-tab" onclick="showPage('keywords')">🔑 Palabras clave</button>
     <button class="nav-tab" onclick="showPage('juegos')">🎮 Juegos</button>
     <button class="nav-tab" onclick="showPage('glosario')">📖 Glosario</button>
+    <button class="nav-tab" onclick="showPage('gramatica')">📐 Gramática</button>
+    <button class="nav-tab" onclick="showPage('actividades')">✏️ Actividades</button>
+    <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()">🌙 Oscuro</button>
   </div>
 </nav>
 
@@ -287,6 +331,170 @@
 
   <div id="glos-container"></div>
 </div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PÁGINA 6 — GRAMÁTICA
+═══════════════════════════════════════════════════════════════ -->
+<div id="page-gramatica" class="page">
+  <h1>Gramática académica en inglés</h1>
+  <p class="subtitle">Preposiciones, verbos, bloques nominales y cómo cambia el significado en contexto académico.</p>
+
+  <div class="tab-group" style="margin-bottom:24px">
+    <button class="tab-item active" onclick="showGramTab('prep')">Preposiciones</button>
+    <button class="tab-item" onclick="showGramTab('verbos')">Verbos + prep.</button>
+    <button class="tab-item" onclick="showGramTab('nominal')">Bloques nominales</button>
+    <button class="tab-item" onclick="showGramTab('practica-gram')">Práctica</button>
+  </div>
+
+  <!-- PREPOSICIONES -->
+  <div id="gram-prep" class="gram-tab">
+    <div class="card">
+      <h2>¿Qué es una preposición?</h2>
+      <p style="font-size:14px;color:var(--text-muted);line-height:1.7">Una <strong style="color:var(--accent)">preposición</strong> es una palabra invariable que relaciona dos elementos de la oración indicando lugar, tiempo, causa, modo, pertenencia, etc. En inglés académico son clave porque cambian el significado de verbos y sustantivos.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-top:16px">
+      <div class="card">
+        <h3 style="color:var(--accent);margin-bottom:10px">📍 Lugar / dirección</h3>
+        <div id="prep-place"></div>
+      </div>
+      <div class="card">
+        <h3 style="color:var(--accent);margin-bottom:10px">⏱ Tiempo</h3>
+        <div id="prep-time"></div>
+      </div>
+      <div class="card">
+        <h3 style="color:var(--accent);margin-bottom:10px">🔗 Relación / propósito</h3>
+        <div id="prep-rel"></div>
+      </div>
+      <div class="card">
+        <h3 style="color:var(--accent);margin-bottom:10px">🎓 Más frecuentes en papers</h3>
+        <div id="prep-academic"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VERBOS + PREPOSICIÓN -->
+  <div id="gram-verbos" class="gram-tab hidden">
+    <div class="card">
+      <h2>Cómo cambia el significado al agregar una preposición</h2>
+      <p style="font-size:14px;color:var(--text-muted);margin-bottom:16px">En inglés, agregar una preposición distinta a un mismo verbo crea un significado completamente diferente. Esto es crucial para leer papers correctamente.</p>
+    </div>
+    <div id="verb-prep-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px;margin-top:16px"></div>
+  </div>
+
+  <!-- BLOQUES NOMINALES -->
+  <div id="gram-nominal" class="gram-tab hidden">
+    <div class="card">
+      <h2>¿Qué es un bloque nominal?</h2>
+      <p style="font-size:14px;color:var(--text-muted);line-height:1.7;margin-bottom:14px">Un <strong style="color:var(--accent)">bloque nominal</strong> (nominal group / noun phrase) es una construcción centrada en un sustantivo que puede incluir determinantes, adjetivos, otros sustantivos y modificadores. El inglés académico los usa extensamente porque permiten empaquetar mucha información en pocas palabras.</p>
+      <div style="background:var(--accent-light);border-radius:8px;padding:14px;font-size:14px">
+        <strong>Estructura básica:</strong> <span style="color:var(--accent)">[Det.] + [Adj./Sust. modificador] + NÚCLEO + [Complemento]</span><br>
+        <span style="color:var(--text-muted);font-size:13px">Ej: <em>"a <u>novel</u> <u>deep learning-based</u> <strong>approach</strong> <u>for real-time data classification</u>"</em></span>
+      </div>
+    </div>
+    <div id="nominal-examples" style="margin-top:16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px"></div>
+  </div>
+
+  <!-- PRÁCTICA GRAMÁTICA -->
+  <div id="gram-practica-gram" class="gram-tab hidden">
+    <h2>Práctica gramatical</h2>
+    <p class="subtitle" style="margin-bottom:20px">Identificá preposiciones, analizá bloques nominales y completá frases académicas.</p>
+    <div id="gram-practice-container"></div>
+    <div class="btn-row" style="margin-top:16px">
+      <button class="btn btn-primary" onclick="resetGramPractice()">↺ Reiniciar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PÁGINA 7 — ACTIVIDADES DE CÁTEDRA
+═══════════════════════════════════════════════════════════════ -->
+<div id="page-actividades" class="page">
+  <h1>Actividades de cátedra</h1>
+  <p class="subtitle">Verdadero / Falso sobre teoría + resolución comentada de las Actividades 2 y 3 de la cátedra.</p>
+
+  <div class="tab-group" style="margin-bottom:24px">
+    <button class="tab-item active" onclick="showActTab('vf')">✅ Verdadero / Falso</button>
+    <button class="tab-item" onclick="showActTab('act2')">📋 Actividad 2</button>
+    <button class="tab-item" onclick="showActTab('act3')">🔍 Actividad 3</button>
+  </div>
+
+  <!-- V/F -->
+  <div id="act-vf">
+    <div class="score-box">
+      <div><span class="score-num" id="vf-score-num">0</span><span style="color:var(--text-muted);font-size:13px"> / <span id="vf-score-total">0</span> respondidas</span></div>
+      <div style="font-size:13px;color:var(--text-muted)">Correctas: <strong id="vf-score-correct" style="color:var(--success)">0</strong></div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="vf-progress-fill" style="width:0%"></div></div>
+    <div id="vf-container"></div>
+    <div class="btn-row"><button class="btn btn-primary" onclick="resetVF()">↺ Reiniciar V/F</button></div>
+  </div>
+
+  <!-- ACTIVIDAD 2 -->
+  <div id="act-act2" class="hidden">
+    <div class="card" style="margin-bottom:16px">
+      <h2>Actividad 2 — Evaluá las estructuras de abstract</h2>
+      <p style="font-size:14px;color:var(--text-muted);line-height:1.7">La cátedra pide identificar la <strong>mejor</strong>, la <strong>peor</strong> y si alguna está a la par. La estructura ideal de un abstract tiene <strong>5 oraciones</strong> cubriendo los marcos principales en orden lógico.</p>
+    </div>
+    <div id="act2-container"></div>
+  </div>
+
+  <!-- ACTIVIDAD 3 -->
+  <div id="act-act3" class="hidden">
+    <div class="card" style="margin-bottom:16px">
+      <h2>Actividad 3 — ¿El movimiento retórico es correcto?</h2>
+      <p style="font-size:14px;color:var(--text-muted);line-height:1.7">Analizá si cada oración corresponde al marco teórico indicado. Tené en cuenta tanto la <strong>redacción</strong> como el <strong>contenido</strong>.</p>
+    </div>
+    <div id="act3-container"></div>
+  </div>
+</div>
+
+<style>
+  .gram-tab { }
+  .prep-row { display:flex; justify-content:space-between; align-items:flex-start; padding:8px 0; border-bottom:1px solid var(--border); gap:12px; font-size:13px; }
+  .prep-row:last-child { border-bottom:none; }
+  .prep-en { font-weight:700; color:var(--accent); min-width:80px; }
+  .prep-es { color:var(--text-muted); flex:1; }
+  .prep-ex { font-size:12px; font-style:italic; color:var(--text-muted); margin-top:2px; }
+  .vp-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:16px; }
+  .vp-verb { font-size:16px; font-weight:700; color:var(--accent); margin-bottom:10px; }
+  .vp-row { display:flex; gap:10px; padding:7px 0; border-bottom:1px solid var(--border); font-size:13px; align-items:flex-start; }
+  .vp-row:last-child { border-bottom:none; }
+  .vp-combo { font-weight:600; color:var(--text); min-width:140px; }
+  .vp-meaning { color:var(--text-muted); flex:1; }
+  .vf-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:18px; margin-bottom:14px; }
+  .vf-stmt { font-size:14px; line-height:1.7; margin-bottom:12px; color:var(--text); }
+  .vf-btns { display:flex; gap:10px; }
+  .vf-btn { padding:8px 24px; border-radius:8px; border:1.5px solid var(--border); background:var(--surface); cursor:pointer; font-size:13px; font-weight:600; transition:all .15s; color:var(--text); }
+  .vf-btn:hover { border-color:var(--accent); }
+  .vf-btn.v-correct { background:var(--success-light); border-color:var(--success); color:var(--success); }
+  .vf-btn.v-wrong { background:var(--danger-light); border-color:var(--danger); color:var(--danger); }
+  .vf-btn.v-reveal { background:var(--warning-light); border-color:var(--warning); color:var(--warning); }
+  .act2-option { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--radius); padding:18px; margin-bottom:14px; cursor:pointer; transition:all .2s; }
+  .act2-option:hover { border-color:var(--accent); }
+  .act2-option.selected-best { border-color:var(--success); background:var(--success-light); }
+  .act2-option.selected-worst { border-color:var(--danger); background:var(--danger-light); }
+  .act2-option.selected-par { border-color:var(--warning); background:var(--warning-light); }
+  .act2-marcos { display:flex; flex-wrap:wrap; gap:6px; margin:10px 0; }
+  .act3-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:20px; margin-bottom:16px; }
+  .act3-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.8px; color:var(--text-muted); margin-bottom:8px; }
+  .act3-text { font-size:14px; line-height:1.75; background:var(--extract-bg); border-left:3px solid var(--accent); padding:12px 16px; border-radius:0 6px 6px 0; margin-bottom:12px; font-style:italic; color:var(--extract-color); }
+  .act3-trans { font-size:13px; color:var(--text-muted); font-style:italic; background:var(--surface-alt); padding:10px 14px; border-radius:6px; margin-bottom:12px; line-height:1.6; }
+  .verdict-box { border-radius:8px; padding:12px 16px; font-size:13px; line-height:1.6; }
+  .verdict-ok { background:var(--success-light); color:var(--success); border:1px solid var(--success); }
+  .verdict-warn { background:var(--warning-light); color:var(--warning); border:1px solid var(--warning); }
+  .verdict-err { background:var(--danger-light); color:var(--danger); border:1px solid var(--danger); }
+  .nominal-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:16px; }
+  .nom-phrase { font-size:15px; font-weight:600; color:var(--text); margin-bottom:10px; line-height:1.6; }
+  .nom-det { color:#2563eb; }
+  .nom-adj { color:#9d174d; }
+  .nom-head { text-decoration:underline; text-decoration-color:var(--accent); font-weight:700; color:var(--accent); }
+  .nom-comp { color:#065f46; }
+  .nom-legend { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+  .nom-tag { font-size:11px; padding:2px 8px; border-radius:10px; font-weight:600; }
+  .gp-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:18px; margin-bottom:14px; }
+  .gp-prompt { font-size:14px; line-height:1.75; font-style:italic; color:var(--extract-color); background:var(--extract-bg); padding:12px 16px; border-radius:6px; margin-bottom:12px; border-left:3px solid var(--accent); }
+  .gp-question { font-size:14px; font-weight:500; margin-bottom:10px; color:var(--text); }
+</style>
 
 <script>
 /* ═══════════════════════════════════════════════════════════
@@ -995,6 +1203,450 @@ function renderGlosario(textId, q) {
 
   if (!html) html = '<div style="text-align:center;padding:40px;color:var(--text-muted);font-size:14px">No se encontraron términos</div>';
   container.innerHTML = html;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   DARK MODE
+═══════════════════════════════════════════════════════════ */
+let isDark = false;
+function toggleTheme(){
+  isDark = !isDark;
+  document.body.classList.toggle('dark', isDark);
+  document.getElementById('theme-btn').textContent = isDark ? '☀️ Claro' : '🌙 Oscuro';
+}
+
+/* ═══════════════════════════════════════════════════════════
+   NAV — extended
+═══════════════════════════════════════════════════════════ */
+const _origShowPage = showPage;
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+/* ═══════════════════════════════════════════════════════════
+   GRAMÁTICA — DATOS
+═══════════════════════════════════════════════════════════ */
+const PREPS_PLACE = [
+  { en:'in',    es:'en (dentro de)',      ex:'"in the context of IoT..."' },
+  { en:'on',    es:'sobre / en (superficie)', ex:'"based on the results..."' },
+  { en:'at',    es:'en (punto específico)', ex:'"at baseline..."' },
+  { en:'into',  es:'hacia adentro / en',  ex:'"divided into three groups..."' },
+  { en:'from',  es:'desde / de (origen)', ex:'"retrieved from Scopus..."' },
+  { en:'across',es:'a través de / en todos los', ex:'"across 5 colonies..."' },
+  { en:'within',es:'dentro de',           ex:'"within the first three years..."' },
+  { en:'between',es:'entre (dos cosas)',  ex:'"between variables X and Y..."' },
+  { en:'among', es:'entre (más de dos)',  ex:'"among the participants..."' },
+];
+const PREPS_TIME = [
+  { en:'in',    es:'en (período largo)',  ex:'"in 2023 / in recent years..."' },
+  { en:'on',    es:'en (día específico)', ex:'"on Thursday / on that date..."' },
+  { en:'at',    es:'en (hora exacta)',    ex:'"at baseline / at the time..."' },
+  { en:'over',  es:'a lo largo de',       ex:'"over the past decade..."' },
+  { en:'during',es:'durante',             ex:'"during the experiment..."' },
+  { en:'since', es:'desde (hasta ahora)', ex:'"since 2015, studies have shown..."' },
+  { en:'by',    es:'para (límite temporal)', ex:'"by 2030, IoT will..."' },
+];
+const PREPS_REL = [
+  { en:'of',    es:'de (pertenencia/contenido)', ex:'"the role of soft skills..."' },
+  { en:'for',   es:'para / por',          ex:'"designed for healthcare..."' },
+  { en:'with',  es:'con',                 ex:'"measured with NIRS..."' },
+  { en:'without',es:'sin',               ex:'"without prior knowledge..."' },
+  { en:'about', es:'sobre / acerca de',   ex:'"concerns about privacy..."' },
+  { en:'through',es:'a través de',        ex:'"through wearable sensors..."' },
+  { en:'by',    es:'por (agente/modo)',    ex:'"conducted by researchers..."' },
+  { en:'despite',es:'a pesar de',         ex:'"despite these limitations..."' },
+  { en:'according to', es:'según / de acuerdo a', ex:'"according to Goleman (1995)..."' },
+];
+const PREPS_ACADEMIC = [
+  { en:'based on',    es:'basado en',             ex:'"based on the data collected..."' },
+  { en:'in terms of', es:'en términos de',        ex:'"in terms of accuracy..."' },
+  { en:'in relation to', es:'en relación a / con', ex:'"in relation to prior work..."' },
+  { en:'with respect to', es:'con respecto a',    ex:'"with respect to performance..."' },
+  { en:'as a result of',  es:'como resultado de', ex:'"as a result of the intervention..."' },
+  { en:'in addition to',  es:'además de',         ex:'"in addition to the survey..."' },
+  { en:'in contrast to',  es:'en contraste con',  ex:'"in contrast to previous studies..."' },
+  { en:'in light of',     es:'a la luz de',       ex:'"in light of these findings..."' },
+];
+
+const VERB_PREPS = [
+  { verb:'focus', pairs:[
+    { combo:'focus on',   es:'enfocarse EN algo',    ex:'"This study focuses on IoT security."' },
+    { combo:'focus around', es:'girar alrededor de', ex:'"Discussions focused around privacy."' },
+  ]},
+  { verb:'result', pairs:[
+    { combo:'result in',   es:'resultar EN (consecuencia)',   ex:'"This resulted in higher accuracy."' },
+    { combo:'result from', es:'resultar DE (causa/origen)',   ex:'"Errors resulted from sensor noise."' },
+  ]},
+  { verb:'depend', pairs:[
+    { combo:'depend on',   es:'depender DE',          ex:'"Performance depends on sample size."' },
+  ]},
+  { verb:'consist', pairs:[
+    { combo:'consist of',  es:'consistir EN / estar compuesto de', ex:'"The dataset consists of 87 articles."' },
+    { combo:'consist in',  es:'consistir en (definición esencial)', ex:'"The method consists in applying CSP."' },
+  ]},
+  { verb:'contribute', pairs:[
+    { combo:'contribute to',  es:'contribuir A',       ex:'"This study contributes to the literature."' },
+    { combo:'contribute with',es:'contribuir CON algo', ex:'"Each author contributed with a section."' },
+  ]},
+  { verb:'relate', pairs:[
+    { combo:'relate to',   es:'relacionarse CON',      ex:'"These findings relate to prior work."' },
+    { combo:'relate with', es:'relacionar con (comparar)', ex:'"We relate our results with Smith (2020)."' },
+  ]},
+  { verb:'compare', pairs:[
+    { combo:'compare to',  es:'comparar CON (similitud)', ex:'"IoT was compared to traditional systems."' },
+    { combo:'compare with',es:'comparar CON (diferencias)', ex:'"Results were compared with the baseline."' },
+  ]},
+  { verb:'aim', pairs:[
+    { combo:'aim to',  es:'tener como objetivo + infinitivo', ex:'"This study aims to examine..."' },
+    { combo:'aim at',  es:'apuntar a / dirigirse a',          ex:'"The system aims at reducing errors."' },
+  ]},
+  { verb:'base', pairs:[
+    { combo:'based on',  es:'basado EN',    ex:'"Based on the results, we conclude..."' },
+    { combo:'based in',  es:'con sede EN',  ex:'"A team based in Buenos Aires..." (ubicación)' },
+  ]},
+  { verb:'account', pairs:[
+    { combo:'account for',  es:'explicar / representar',  ex:'"Awareness accounts for 32% of variance."' },
+    { combo:'account on',   es:'NO existe en inglés académico', ex:'⚠️ Error común de argentinos' },
+  ]},
+];
+
+const NOMINAL_EXAMPLES = [
+  { phrase:'a novel deep learning-based approach for real-time data classification',
+    det:'a', adj:'novel deep learning-based', head:'approach', comp:'for real-time data classification',
+    nota:'4 palabras modifican al núcleo "approach" antes de que aparezca.' },
+  { phrase:'the significant positive correlation between foraging frequency and electrostatic charge',
+    det:'the', adj:'significant positive', head:'correlation', comp:'between foraging frequency and electrostatic charge',
+    nota:'"correlation" es el núcleo; todo lo demás lo precisa.' },
+  { phrase:'an automated customer-specific mechatronic system configuration tool',
+    det:'an', adj:'automated customer-specific mechatronic system', head:'configuration tool', comp:'',
+    nota:'5 modificadores antes del núcleo compuesto "configuration tool".' },
+  { phrase:'the growing body of evidence supporting the benefits of human-animal interaction',
+    det:'the', adj:'growing', head:'body', comp:'of evidence supporting the benefits of human-animal interaction',
+    nota:'"body" es el núcleo; el complemento postpuesto es muy extenso.' },
+  { phrase:'a structured self-administered household questionnaire',
+    det:'a', adj:'structured self-administered household', head:'questionnaire', comp:'',
+    nota:'3 adjetivos antes del núcleo — típico en metodología.' },
+  { phrase:'the rapid advances in computer technology over the past decade',
+    det:'the', adj:'rapid', head:'advances', comp:'in computer technology over the past decade',
+    nota:'Doble complemento preposicional postpuesto al núcleo.' },
+];
+
+/* PRÁCTICA GRAMÁTICA */
+const GRAM_PRACTICE = [
+  { type:'prep-choice', prompt:'Despite recent advances in microwave sensing, existing systems still face limitations related to sensitivity, circuit _____.', options:['size','of size','in size','for size'], answer:'size', explain:'"related to sensitivity, circuit size" — sustantivo directo, sin preposición adicional.' },
+  { type:'prep-choice', prompt:'The dataset consisted _____ 87 peer-reviewed articles retrieved from Scopus.', options:['of','from','in','by'], answer:'of', explain:'"consist of" = estar compuesto de. Siempre "of" con consist.' },
+  { type:'prep-choice', prompt:'This study focuses _____ the role of soft skills in career advancement.', options:['on','in','at','about'], answer:'on', explain:'"focus on" = enfocarse en. Preposición fija con este verbo.' },
+  { type:'prep-choice', prompt:'The results were compared _____ the baseline measurements taken before the intervention.', options:['with','to','from','against'], answer:'with', explain:'"compared with" = comparar diferencias. "compared to" = comparar similitudes.' },
+  { type:'prep-choice', prompt:'Awareness of recycling benefits accounts _____ 32% of the variance in behavior.', options:['for','to','from','in'], answer:'for', explain:'"account for" = explicar / representar. Frase fija.' },
+  { type:'nominal-identify', prompt:'Subrayá el NÚCLEO del bloque nominal:\n"a novel constraint satisfaction-based configuration algorithm"', options:['novel','configuration algorithm','constraint satisfaction-based','a'], answer:'configuration algorithm', explain:'El núcleo es "configuration algorithm". "novel" y "constraint satisfaction-based" son modificadores preconcepcionales.' },
+  { type:'nominal-identify', prompt:'¿Cuántos modificadores tiene este bloque nominal?\n"the growing body of evidence supporting HAI benefits"', options:['1','2','3','4'], answer:'2', explain:'"growing" (preconcepcional) + "of evidence supporting HAI benefits" (posconcepcional). El núcleo es "body".' },
+  { type:'vf-gram', stmt:'La preposición "for" siempre indica finalidad/propósito en inglés académico.', answer:false, explain:'No siempre. "account for" = explicar; "known for" = conocido por; "except for" = excepto. El significado depende del verbo o expresión.' },
+  { type:'vf-gram', stmt:'"Based on the results" es un bloque preposicional que modifica al verbo de la oración principal.', answer:true, explain:'Sí. "Based on the results" funciona como adjunto adverbial — modifica el predicado de lo que sigue.' },
+  { type:'vf-gram', stmt:'En "a structured self-administered household questionnaire", el núcleo es "structured".', answer:false, explain:'Falso. El núcleo es "questionnaire". Los adjetivos antes del núcleo ("structured", "self-administered", "household") lo modifican.' },
+];
+
+/* ═══════════════════════════════════════════════════════════
+   ACTIVIDADES — DATOS
+═══════════════════════════════════════════════════════════ */
+const VF_ITEMS = [
+  { stmt:'La conclusión siempre aparece al principio de un paper académico.', answer:false, explain:'Falso. La conclusión está al final del paper. Sintetiza los hallazgos y cierra el texto.' },
+  { stmt:'El GAP indica lo que ya ha sido ampliamente estudiado en la literatura.', answer:false, explain:'Falso. El GAP señala lo que NO se ha estudiado, lo que falta o está incompleto en la literatura.' },
+  { stmt:'Un extracto que comienza con "Despite recent advances..." es muy probablemente un GAP o limitación.', answer:true, explain:'Correcto. "Despite" introduce un contraste entre lo que existe y lo que falta, señal clara de GAP.' },
+  { stmt:'La hipótesis es una afirmación que el estudio ya confirmó antes de comenzar.', answer:false, explain:'Falso. La hipótesis es una afirmación PROVISIONAL que el estudio busca confirmar o refutar. Puede resultar incorrecta.' },
+  { stmt:'El método describe cómo se recolectaron y analizaron los datos.', answer:true, explain:'Correcto. El método debe ser suficientemente detallado para que otro investigador pueda replicar el estudio.' },
+  { stmt:'Un extracto con "p < 0.05" y comparación entre grupos pertenece al marco de Resultado.', answer:true, explain:'Correcto. Los valores estadísticos y comparaciones entre grupos son señales inequívocas de Resultado.' },
+  { stmt:'Las líneas de investigación futuras pueden aparecer tanto en la Discusión como en la Conclusión.', answer:true, explain:'Correcto. Aunque son más frecuentes en Conclusión, también pueden aparecer al final de la Discusión.' },
+  { stmt:'Un abstract ideal para esta cátedra tiene exactamente 6 oraciones.', answer:false, explain:'Falso. La cátedra pide 5 oraciones. Con 6 se considera que tiene un marco extra innecesario o repetido.' },
+  { stmt:'"The analysis of existing approaches indicates that..." es típicamente un Resultado.', answer:false, explain:'Falso. Aunque usa un verbo de resultado ("indicates"), analizar "enfoques existentes" sugiere una síntesis evaluativa → Conclusión.' },
+  { stmt:'Antecedentes y Marco Teórico son exactamente lo mismo.', answer:false, explain:'Falso. Los antecedentes son estudios previos. El marco teórico son los conceptos y teorías que sostienen la investigación. Pueden solaparse pero no son idénticos.' },
+  { stmt:'El Objetivo siempre usa un verbo de acción en infinitivo como "aim to", "examine", "propose".', answer:true, explain:'Correcto. El objetivo se enuncia con verbos de acción que indican qué hace el estudio: aim to, seek to, investigate, propose, examine.' },
+  { stmt:'La Discusión puede incluir limitaciones del estudio.', answer:true, explain:'Correcto. Las limitaciones aparecen típicamente en la Discusión y/o la Conclusión.' },
+  { stmt:'"We hypothesized that contact with a dog would increase prefrontal oxygenation" es un ejemplo de Objetivo.', answer:false, explain:'Falso. "We hypothesized that" es la señal más directa de Hipótesis. El objetivo usaría "we aimed to examine whether...".' },
+  { stmt:'La Contextualización y la Introducción siempre son el mismo marco teórico.', answer:false, explain:'Falso. La introducción presenta el tema general. La contextualización describe el entorno específico del fenómeno. La intro puede incluir contextualización, pero no son sinónimos.' },
+  { stmt:'Un extracto que dice "Future research should investigate..." es una línea de investigación futura.', answer:true, explain:'Correcto. "Future research should" es la expresión más directa para identificar este marco.' },
+];
+
+const ACT2_OPTIONS = [
+  { id:'A', marcos:['Hipótesis','Vacío de conocimiento (GAP)','Objetivo','Metodología','Discusión','Resultado','Conclusión'],
+    problema:'La secuencia "Resultado + Conclusión" aparece mezclada, y además pone "Discusión" ANTES de "Resultado", cuando el orden lógico es Resultado → Discusión. Tiene 7 elementos, demasiados para 5 oraciones.',
+    verdict:'peor', color:'danger' },
+  { id:'B', marcos:['Introducción','Problemática','Metodología','Propósito + Resultado','Discusión','Conclusión'],
+    problema:'Tiene 6 oraciones cuando la cátedra pide 5. "Propósito + Resultado" combinados en una oración es forzado. La estructura es razonable pero no cumple el requisito de extensión.',
+    verdict:'second', color:'warning' },
+  { id:'C', marcos:['Introducción + Hipótesis','Vacío de conocimiento (GAP)','Objetivo + Metodología','Resultado','Conclusión + Líneas Futuras'],
+    problema:'Ninguno. 5 oraciones, orden lógico correcto, combinaciones coherentes (Intro+Hip / Obj+Met / Conc+Fut). Cubre todos los marcos esenciales.',
+    verdict:'mejor', color:'success' },
+  { id:'D', marcos:['Hipótesis','Objetivo','Metodología','Resultado','Conclusión'],
+    problema:'5 oraciones y orden correcto, pero falta la Introducción o GAP. Comienza directamente con Hipótesis sin contextualizar al lector. Está a la par con C en cantidad pero le falta el marco inicial.',
+    verdict:'par-con-C', color:'warning' },
+];
+
+const ACT3_ITEMS = [
+  { num:1, marco_indicado:'HIPÓTESIS', es_correcto:false,
+    text:'Despite recent advances in microwave sensing, existing resonance-tracking systems still face limitations related to sensitivity, circuit size,',
+    traduccion:'A pesar de los recientes avances en el sensado por microondas, los sistemas de seguimiento de resonancia existentes todavía enfrentan limitaciones relacionadas con la sensibilidad, el tamaño del circuito...',
+    verdict:'warn',
+    explicacion:'❌ No es hipótesis. "Despite recent advances... still face limitations" es la estructura clásica de un <strong>GAP</strong> (brecha de conocimiento). "Despite" introduce el contraste entre lo que existe y lo que falta. Una hipótesis debería afirmar una relación esperada entre variables, ej: "We hypothesize that X will result in Y".' },
+  { num:2, marco_indicado:'OBJETIVO', es_correcto:true,
+    text:'Este trabajo propone un sistema inalámbrico de sensado ultracompacto basado en un resonador de plasmones superficiales simulados (SSPR) y un esquema inteligente de seguimiento de resonancia definido por software para mejorar la precisión de las mediciones.',
+    traduccion:null,
+    verdict:'ok',
+    explicacion:'✅ Correcto. "Este trabajo propone" + descripción detallada de qué se va a construir/hacer = Objetivo. El verbo "proponer" en español equivale a "propose" en inglés, señal directa de objetivo en textos de ingeniería/tecnología.' },
+  { num:3, marco_indicado:'RESULTADO', es_correcto:false,
+    text:'The analysis of existing security approaches indicates that post-quantum cryptography and Physical Unclonable Functions (PUFs) offer promising mechanisms for device authentication and protection, yet their practical deployment in low-cost and resource-constrained IoT environments continues to present significant challenges.',
+    traduccion:'El análisis de los enfoques de seguridad existentes indica que la criptografía postcuántica y las funciones físicas inclonables (PUF) ofrecen mecanismos prometedores para la autenticación y protección de dispositivos; sin embargo, su implementación práctica en entornos de IoT de bajo costo y con recursos limitados sigue presentando desafíos importantes.',
+    verdict:'err',
+    explicacion:'❌ No es resultado, es <strong>Conclusión</strong>. "The analysis of existing... indicates" sugiere que se está evaluando y sintetizando TODO lo analizado en el paper, no reportando un hallazgo puntual. Además el uso de "yet... continues to present challenges" introduce matiz evaluativo típico de cierre. Un resultado diría: "Results showed that X achieved Y% accuracy" con datos concretos.' },
+  { num:4, marco_indicado:'CONCLUSIÓN', es_correcto:true,
+    text:'Finalmente, se concluye que la seguridad debe incorporarse desde las primeras etapas del diseño de los dispositivos IoT y que son necesarias nuevas investigaciones para desarrollar soluciones ligeras, escalables y resistentes a los desafíos futuros del ecosistema IoT.',
+    traduccion:null,
+    verdict:'ok',
+    explicacion:'✅ Correcto, y tiene doble función: es <strong>Conclusión + Líneas de investigación futuras</strong>. "Se concluye que..." cierra el paper. "Son necesarias nuevas investigaciones para..." abre las líneas futuras. Este tipo de oración compuesta es común en el cierre de papers académicos.' },
+];
+
+/* ═══════════════════════════════════════════════════════════
+   GRAMÁTICA — BUILD FUNCTIONS
+═══════════════════════════════════════════════════════════ */
+function buildPrepRows(items){
+  return items.map(p=>`<div class="prep-row">
+    <span class="prep-en">${p.en}</span>
+    <div class="prep-es">${p.es}<div class="prep-ex">${p.ex}</div></div>
+  </div>`).join('');
+}
+
+function buildGramatica(){
+  document.getElementById('prep-place').innerHTML = buildPrepRows(PREPS_PLACE);
+  document.getElementById('prep-time').innerHTML  = buildPrepRows(PREPS_TIME);
+  document.getElementById('prep-rel').innerHTML   = buildPrepRows(PREPS_REL);
+  document.getElementById('prep-academic').innerHTML = buildPrepRows(PREPS_ACADEMIC);
+
+  document.getElementById('verb-prep-grid').innerHTML = VERB_PREPS.map(vp=>`
+    <div class="vp-card">
+      <div class="vp-verb">⚡ ${vp.verb}</div>
+      ${vp.pairs.map(p=>`<div class="vp-row">
+        <span class="vp-combo">${p.combo}</span>
+        <div class="vp-meaning">${p.es}<br><span style="font-size:11px;font-style:italic;color:var(--text-muted)">${p.ex}</span></div>
+      </div>`).join('')}
+    </div>`).join('');
+
+  document.getElementById('nominal-examples').innerHTML = NOMINAL_EXAMPLES.map(n=>`
+    <div class="nominal-card">
+      <div class="nom-phrase">
+        ${n.det?`<span class="nom-det">${n.det}</span> `:''}
+        ${n.adj?`<span class="nom-adj">${n.adj}</span> `:''}
+        <span class="nom-head">${n.head}</span>
+        ${n.comp?` <span class="nom-comp">${n.comp}</span>`:''}
+      </div>
+      <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px">${n.nota}</div>
+      <div class="nom-legend">
+        ${n.det?`<span class="nom-tag" style="background:#dbeafe;color:#1e40af">Det: ${n.det}</span>`:''}
+        ${n.adj?`<span class="nom-tag" style="background:#fce7f3;color:#9d174d">Adj/Mod: ${n.adj}</span>`:''}
+        <span class="nom-tag" style="background:#ede9fe;color:#4c1d95">Núcleo: ${n.head}</span>
+        ${n.comp?`<span class="nom-tag" style="background:#d1fae5;color:#065f46">Comp: ${n.comp}</span>`:''}
+      </div>
+    </div>`).join('');
+
+  buildGramPractice();
+}
+
+let gramAnswered = {};
+function buildGramPractice(){
+  gramAnswered = {};
+  document.getElementById('gram-practice-container').innerHTML = GRAM_PRACTICE.map((q,i)=>{
+    const opts = q.type==='vf-gram'
+      ? ['Verdadero','Falso']
+      : q.options;
+    return `<div class="gp-card">
+      <div class="extract-meta">Pregunta ${i+1} — ${q.type==='vf-gram'?'V/F':q.type==='prep-choice'?'Preposición':'Bloque nominal'}</div>
+      <div class="gp-prompt">${q.prompt.replace(/\n/g,'<br>')}</div>
+      <div class="gp-question">${q.type==='vf-gram'?'¿Verdadero o Falso?':q.type==='prep-choice'?'¿Qué preposición corresponde?':'Seleccioná la respuesta correcta:'}</div>
+      <div class="options-grid">${opts.map(o=>{
+        const val = q.type==='vf-gram'?(o==='Verdadero'?'true':'false'):o;
+        return `<button class="opt-btn" onclick="answerGram(${i},'${val}',this)">${o}</button>`;
+      }).join('')}</div>
+      <div class="feedback" id="gfb-${i}"></div>
+    </div>`;
+  }).join('');
+}
+
+function answerGram(idx, chosen, btn){
+  if(gramAnswered[idx]!==undefined) return;
+  const q = GRAM_PRACTICE[idx];
+  const correct = q.type==='vf-gram' ? String(q.answer) : q.answer;
+  const isOk = chosen === correct;
+  gramAnswered[idx] = isOk;
+  btn.closest('.gp-card').querySelectorAll('.opt-btn').forEach(b=>{
+    b.disabled=true;
+    const bval = q.type==='vf-gram'?(b.textContent==='Verdadero'?'true':'false'):b.textContent;
+    if(bval===correct) b.classList.add(isOk?'correct':'reveal');
+    if(bval===chosen && !isOk) b.classList.add('wrong');
+  });
+  const fb = document.getElementById('gfb-'+idx);
+  fb.className='feedback '+(isOk?'ok':'fail');
+  fb.textContent = (isOk?'✓ Correcto. ':'✗ Incorrecto. ') + q.explain;
+}
+
+function resetGramPractice(){ buildGramPractice(); }
+
+function showGramTab(tab){
+  document.querySelectorAll('.gram-tab').forEach(t=>t.classList.add('hidden'));
+  document.getElementById('gram-'+tab).classList.remove('hidden');
+  const tabs = document.querySelectorAll('#page-gramatica .tab-item');
+  tabs.forEach(t=>t.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ACTIVIDADES — BUILD FUNCTIONS
+═══════════════════════════════════════════════════════════ */
+function showActTab(tab){
+  ['vf','act2','act3'].forEach(t=>{
+    const el=document.getElementById('act-'+t);
+    if(el) el.classList.toggle('hidden', t!==tab);
+  });
+  document.querySelectorAll('#page-actividades .tab-item').forEach(t=>t.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+/* --- V/F --- */
+let vfAnswered={}, vfScores={total:0,correct:0};
+function buildVF(){
+  vfAnswered={}; vfScores={total:0,correct:0};
+  document.getElementById('vf-score-num').textContent=0;
+  document.getElementById('vf-score-total').textContent=0;
+  document.getElementById('vf-score-correct').textContent=0;
+  document.getElementById('vf-progress-fill').style.width='0%';
+  document.getElementById('vf-container').innerHTML = VF_ITEMS.map((item,i)=>`
+    <div class="vf-card">
+      <div class="vf-stmt">${i+1}. ${item.stmt}</div>
+      <div class="vf-btns">
+        <button class="vf-btn" onclick="answerVF(${i},true,this)">✓ Verdadero</button>
+        <button class="vf-btn" onclick="answerVF(${i},false,this)">✗ Falso</button>
+      </div>
+      <div class="feedback" id="vffb-${i}"></div>
+    </div>`).join('');
+}
+
+function answerVF(idx, chosen, btn){
+  if(vfAnswered[idx]!==undefined) return;
+  const correct = VF_ITEMS[idx].answer;
+  const isOk = chosen===correct;
+  vfAnswered[idx]=isOk;
+  vfScores.total++; if(isOk) vfScores.correct++;
+  btn.closest('.vf-card').querySelectorAll('.vf-btn').forEach(b=>{
+    b.disabled=true;
+    const bval = b.textContent.includes('Verdadero');
+    if(bval===correct) b.classList.add(isOk?'v-correct':'v-reveal');
+    if(bval===chosen && !isOk) b.classList.add('v-wrong');
+  });
+  const fb=document.getElementById('vffb-'+idx);
+  fb.className='feedback '+(isOk?'ok':'fail');
+  fb.textContent=(isOk?'✓ Correcto. ':'✗ Incorrecto. ')+VF_ITEMS[idx].explain;
+  const done=Object.keys(vfAnswered).length;
+  document.getElementById('vf-score-num').textContent=done;
+  document.getElementById('vf-score-total').textContent=VF_ITEMS.length;
+  document.getElementById('vf-score-correct').textContent=vfScores.correct;
+  document.getElementById('vf-progress-fill').style.width=(done/VF_ITEMS.length*100)+'%';
+}
+
+function resetVF(){ buildVF(); }
+
+/* --- ACTIVIDAD 2 --- */
+function buildAct2(){
+  let sel={mejor:null,peor:null};
+  document.getElementById('act2-container').innerHTML = `
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+      <span style="font-size:13px;font-weight:600;color:var(--text-muted);align-self:center">Seleccioná:</span>
+      <button class="filter-btn active" id="act2-mode-best" onclick="setAct2Mode('mejor',this)">🥇 La mejor</button>
+      <button class="filter-btn" id="act2-mode-worst" onclick="setAct2Mode('peor',this)">❌ La peor</button>
+      <button class="btn btn-outline" style="margin-left:auto;font-size:13px" onclick="showAct2Solution()">Ver solución</button>
+    </div>
+    <div id="act2-options-wrap">
+      ${ACT2_OPTIONS.map(o=>`
+        <div class="act2-option" id="act2-opt-${o.id}" onclick="selectAct2('${o.id}')">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+            <span style="font-size:18px;font-weight:800;color:var(--accent)">Opción ${o.id}</span>
+            <span id="act2-tag-${o.id}" style="font-size:12px;color:var(--text-muted)"></span>
+          </div>
+          <div class="act2-marcos">${o.marcos.map(m=>`<span class="badge" style="background:var(--accent-light);color:var(--accent)">${m}</span>`).join('')}</div>
+        </div>`).join('')}
+    </div>
+    <div id="act2-solution" class="hidden" style="margin-top:20px"></div>
+  `;
+}
+
+let act2Mode='mejor';
+function setAct2Mode(mode, btn){
+  act2Mode=mode;
+  document.querySelectorAll('#act2-container .filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function selectAct2(id){
+  const option = ACT2_OPTIONS.find(o=>o.id===id);
+  const tag = document.getElementById('act2-tag-'+id);
+  const el = document.getElementById('act2-opt-'+id);
+  el.classList.remove('selected-best','selected-worst','selected-par');
+  if(act2Mode==='mejor'){ el.classList.add('selected-best'); tag.textContent='🥇 Mejor'; }
+  else { el.classList.add('selected-worst'); tag.textContent='❌ Peor'; }
+}
+
+function showAct2Solution(){
+  const sol=document.getElementById('act2-solution');
+  sol.classList.remove('hidden');
+  sol.innerHTML=`<div class="card">
+    <h2 style="margin-bottom:16px">✅ Resolución de la cátedra</h2>
+    ${ACT2_OPTIONS.map(o=>{
+      const colors={mejor:'success',peor:'danger',second:'warning','par-con-C':'warning'};
+      const labels={mejor:'🥇 MEJOR',peor:'❌ PEOR',second:'⚠️ SEGUNDA (tiene problemas)',
+        'par-con-C':'🤝 A LA PAR con C (pero le falta el inicio)'};
+      const c=colors[o.verdict]||'warning';
+      return `<div style="margin-bottom:16px;padding:14px;border-radius:10px;border:1.5px solid var(--${c});background:var(--${c}-light)">
+        <div style="font-weight:700;font-size:15px;color:var(--${c});margin-bottom:8px">Opción ${o.id} — ${labels[o.verdict]}</div>
+        <div class="act2-marcos" style="margin-bottom:8px">${o.marcos.map(m=>`<span class="badge" style="background:var(--accent-light);color:var(--accent)">${m}</span>`).join('')}</div>
+        <div style="font-size:13px;color:var(--text-muted)">${o.problema}</div>
+      </div>`;
+    }).join('')}
+    <div style="background:var(--accent-light);border-radius:8px;padding:14px;font-size:13px;color:var(--accent);margin-top:8px">
+      <strong>Criterio de la cátedra:</strong> 5 oraciones, orden lógico (Intro→GAP→Obj→Met→Res→Disc→Conc), sin marcos mal ordenados. La opción C cumple todo. D está a la par en forma pero le falta contextualizar al lector. A y B tienen errores de orden o extensión.
+    </div>
+  </div>`;
+}
+
+/* --- ACTIVIDAD 3 --- */
+function buildAct3(){
+  document.getElementById('act3-container').innerHTML = ACT3_ITEMS.map((item,i)=>`
+    <div class="act3-card">
+      <div class="act3-label">Oración ${item.num} — Marco indicado: <span class="badge ${item.es_correcto?'m-objetivo':'m-gap'}" style="font-size:12px">${item.marco_indicado}</span></div>
+      <div class="act3-text">${item.text}</div>
+      ${item.traduccion?`<div class="act3-trans">🇦🇷 ${item.traduccion}</div>`:''}
+      <div style="display:flex;gap:10px;margin-bottom:12px">
+        <button class="vf-btn" onclick="answerAct3(${i},true,this)">✓ Correcto</button>
+        <button class="vf-btn" onclick="answerAct3(${i},false,this)">✗ Incorrecto</button>
+      </div>
+      <div class="feedback" id="act3fb-${i}"></div>
+    </div>`).join('');
+}
+
+function answerAct3(idx, chosen, btn){
+  const item=ACT3_ITEMS[idx];
+  const isOk=chosen===item.es_correcto;
+  btn.closest('.act3-card').querySelectorAll('.vf-btn').forEach(b=>b.disabled=true);
+  btn.classList.add(isOk?'v-correct':'v-wrong');
+  const fb=document.getElementById('act3fb-'+idx);
+  fb.className='feedback '+(isOk?'ok':'fail');
+  fb.innerHTML='';
+  const box=document.createElement('div');
+  box.className=`verdict-box verdict-${item.verdict}`;
+  box.style.marginTop='8px';
+  box.innerHTML=item.explicacion;
+  fb.style.display='block';
+  fb.style.background='none';
+  fb.style.padding='0';
+  fb.appendChild(box);
 }
 
 /* ═══════════════════════════════════════════════════════════
