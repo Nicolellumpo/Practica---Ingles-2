@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marcos Teóricos — Práctica Académica</title>
+<style>
+  :root {
+    --accent: #4f46e5;
+    --accent-light: #ede9fe;
+    --accent-dark: #3730a3;
+    --success: #059669;
+    --success-light: #d1fae5;
+    --danger: #dc2626;
+    --danger-light: #fee2e2;
+    --warning: #d97706;
+    --warning-light: #fef3c7;
+    --surface: #ffffff;
+    --surface-alt: #f8f7ff;
+    --border: #e5e7eb;
+    --text: #111827;
+    --text-muted: #6b7280;
+    --radius: 10px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f3ff; color: var(--text); font-size: 15px; line-height: 1.6; }
+
+  /* NAV */
+  nav { background: #fff; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+  .nav-inner { max-width: 960px; margin: auto; display: flex; align-items: center; gap: 4px; padding: 0 16px; height: 52px; overflow-x: auto; }
+  .nav-tab { padding: 6px 14px; border-radius: 8px; border: none; background: none; cursor: pointer; font-size: 13px; font-weight: 500; color: var(--text-muted); white-space: nowrap; transition: all .15s; }
+  .nav-tab:hover { background: var(--accent-light); color: var(--accent); }
+  .nav-tab.active { background: var(--accent); color: #fff; }
+
+  /* LAYOUT */
+  .page { display: none; max-width: 960px; margin: auto; padding: 28px 16px 60px; }
+  .page.active { display: block; }
+  h1 { font-size: 22px; font-weight: 600; margin-bottom: 6px; }
+  h2 { font-size: 17px; font-weight: 600; margin-bottom: 12px; color: var(--accent-dark); }
+  h3 { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+  .subtitle { color: var(--text-muted); font-size: 14px; margin-bottom: 28px; }
+  .card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 16px; }
+  .badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 20px; letter-spacing: .3px; }
+
+  /* COLORES POR MARCO */
+  .m-intro    { background: #dbeafe; color: #1e40af; }
+  .m-hipotesis{ background: #fce7f3; color: #9d174d; }
+  .m-gap      { background: #fee2e2; color: #991b1b; }
+  .m-objetivo { background: #d1fae5; color: #065f46; }
+  .m-metodo   { background: #fef3c7; color: #92400e; }
+  .m-resultado{ background: #ede9fe; color: #4c1d95; }
+  .m-concl    { background: #ecfdf5; color: #065f46; }
+  .m-ant      { background: #f3f4f6; color: #374151; }
+  .m-limit    { background: #fff7ed; color: #9a3412; }
+  .m-disc     { background: #f0fdf4; color: #14532d; }
+  .m-context  { background: #f0f9ff; color: #075985; }
+  .m-problem  { background: #fff1f2; color: #881337; }
+  .m-contrib  { background: #fdf4ff; color: #6b21a8; }
+  .m-futuro   { background: #f0fdfa; color: #134e4a; }
+  .m-marco    { background: #fafaf0; color: #713f12; }
+
+  /* PRÁCTICA — extractos */
+  .extract-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 20px; }
+  .extract-meta { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: .5px; }
+  .extract-text { font-size: 14px; line-height: 1.75; color: #374151; background: #f9fafb; border-left: 3px solid #d1d5db; padding: 12px 16px; border-radius: 0 6px 6px 0; margin-bottom: 14px; font-style: italic; }
+  .options-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+  .opt-btn { padding: 7px 14px; border-radius: 8px; border: 1.5px solid var(--border); background: #fff; cursor: pointer; font-size: 13px; font-weight: 500; transition: all .15s; color: var(--text); }
+  .opt-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+  .opt-btn.correct { background: var(--success-light); border-color: var(--success); color: var(--success); }
+  .opt-btn.wrong { background: var(--danger-light); border-color: var(--danger); color: var(--danger); }
+  .opt-btn.reveal { background: #fffbeb; border-color: var(--warning); color: var(--warning); }
+  .feedback { font-size: 13px; padding: 10px 14px; border-radius: 8px; margin-top: 8px; display: none; }
+  .feedback.ok { background: var(--success-light); color: var(--success); display: block; }
+  .feedback.fail { background: var(--danger-light); color: var(--danger); display: block; }
+  .progress-bar { height: 6px; background: #e5e7eb; border-radius: 3px; margin-bottom: 20px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--accent); border-radius: 3px; transition: width .3s; }
+  .score-box { background: var(--accent-light); border-radius: var(--radius); padding: 14px 20px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+  .score-num { font-size: 22px; font-weight: 700; color: var(--accent); }
+  .filter-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+  .filter-btn { padding: 5px 12px; border-radius: 20px; border: 1.5px solid var(--border); background: #fff; cursor: pointer; font-size: 12px; font-weight: 500; color: var(--text-muted); transition: all .15s; }
+  .filter-btn:hover, .filter-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  /* DOCUMENTACIÓN */
+  .doc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-bottom: 24px; }
+  .doc-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
+  .doc-card h3 { font-size: 14px; margin-bottom: 6px; }
+  .doc-card p { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+  .doc-card .ubicacion { font-size: 11px; margin-top: 8px; font-weight: 600; letter-spacing: .3px; }
+  .section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 10px; display: block; }
+
+  /* PALABRAS CLAVE */
+  .kw-section { margin-bottom: 28px; }
+  .kw-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+  .kw-chip { display: flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 500; background: #f3f4f6; color: #374151; border: 1px solid var(--border); }
+  .kw-chip .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .kw-search { width: 100%; padding: 10px 14px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 14px; margin-bottom: 16px; outline: none; transition: border-color .15s; }
+  .kw-search:focus { border-color: var(--accent); }
+
+  /* JUEGOS */
+  .game-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; }
+  .drag-word { display: inline-block; padding: 5px 12px; background: var(--accent-light); color: var(--accent-dark); border-radius: 6px; font-size: 13px; font-weight: 600; cursor: grab; margin: 4px; border: 1.5px dashed var(--accent); user-select: none; transition: transform .1s; }
+  .drag-word:active { cursor: grabbing; transform: scale(1.05); }
+  .drop-zone { display: inline-block; min-width: 130px; min-height: 32px; border: 2px dashed #d1d5db; border-radius: 6px; padding: 4px 10px; margin: 4px; vertical-align: middle; background: #f9fafb; font-size: 13px; font-weight: 600; transition: all .15s; }
+  .drop-zone.over { border-color: var(--accent); background: var(--accent-light); }
+  .drop-zone.filled { border-style: solid; }
+  .drop-zone.correct-drop { border-color: var(--success); background: var(--success-light); color: var(--success); }
+  .drop-zone.wrong-drop { border-color: var(--danger); background: var(--danger-light); color: var(--danger); }
+  .timer { font-size: 28px; font-weight: 700; color: var(--accent); text-align: center; margin: 12px 0; }
+  .btn { padding: 9px 20px; border-radius: 8px; border: none; cursor: pointer; font-size: 14px; font-weight: 600; transition: all .15s; }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: var(--accent-dark); }
+  .btn-outline { background: #fff; color: var(--accent); border: 1.5px solid var(--accent); }
+  .btn-outline:hover { background: var(--accent-light); }
+  .btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+  .stars { font-size: 24px; text-align: center; margin: 10px 0; }
+  .hidden { display: none !important; }
+
+  /* ESTRUCTURA VISUAL */
+  .flow-diagram { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 16px 0; }
+  .flow-box { padding: 8px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; text-align: center; border: 1.5px solid; }
+  .flow-arrow { color: #9ca3af; font-size: 18px; }
+  .tab-group { display: flex; gap: 2px; margin-bottom: 16px; background: #f3f4f6; padding: 3px; border-radius: 8px; }
+  .tab-item { flex: 1; padding: 8px; border: none; background: none; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; color: var(--text-muted); transition: all .15s; }
+  .tab-item.active { background: #fff; color: var(--accent); box-shadow: 0 1px 3px rgba(0,0,0,.1); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <button class="nav-tab active" onclick="showPage('practica')">🎯 Práctica</button>
+    <button class="nav-tab" onclick="showPage('doc')">📚 Documentación</button>
+    <button class="nav-tab" onclick="showPage('keywords')">🔑 Palabras clave</button>
+    <button class="nav-tab" onclick="showPage('juegos')">🎮 Juegos</button>
+    <button class="nav-tab" onclick="showPage('glosario')">📖 Glosario</button>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PÁGINA 1 — PRÁCTICA
+═══════════════════════════════════════════════════════════════ -->
+<div id="page-practica" class="page active">
+  <h1>Práctica de marcos teóricos</h1>
+  <p class="subtitle">Identificá el marco de cada extracto de texto académico en inglés.</p>
+
+  <div class="score-box">
+    <div><span class="score-num" id="score-num">0</span><span style="color:var(--text-muted);font-size:13px"> / <span id="score-total">0</span> respondidas</span></div>
+    <div style="font-size:13px;color:var(--text-muted)">Correctas: <strong id="score-correct" style="color:var(--success)">0</strong></div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+
+  <div class="filter-row" id="filter-row">
+    <span style="font-size:13px;color:var(--text-muted);align-self:center">Filtrar:</span>
+    <button class="filter-btn active" onclick="filterExtracts('all',this)">Todos</button>
+    <button class="filter-btn" onclick="filterExtracts('intro',this)">Intro</button>
+    <button class="filter-btn" onclick="filterExtracts('gap',this)">GAP</button>
+    <button class="filter-btn" onclick="filterExtracts('objetivo',this)">Objetivo</button>
+    <button class="filter-btn" onclick="filterExtracts('hipotesis',this)">Hipótesis</button>
+    <button class="filter-btn" onclick="filterExtracts('metodo',this)">Método</button>
+    <button class="filter-btn" onclick="filterExtracts('resultado',this)">Resultado</button>
+    <button class="filter-btn" onclick="filterExtracts('conclusion',this)">Conclusión</button>
+  </div>
+
+  <div id="extracts-container"></div>
+  <div class="btn-row">
+    <button class="btn btn-primary" onclick="resetAll()">↺ Reiniciar práctica</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PÁGINA 2 — DOCUMENTACIÓN
+═══════════════════════════════════════════════════════════════ -->
+<div id="page-doc" class="page">
+  <h1>Documentación teórica</h1>
+  <p class="subtitle">Qué es cada marco teórico en español, cuándo aparece y qué función cumple en un texto académico.</p>
+
+  <div style="margin-bottom:20px">
+    <div class="tab-group">
+      <button class="tab-item active" onclick="showDocTab('inicio')">Inicio del texto</button>
+      <button class="tab-item" onclick="showDocTab('desarrollo')">Desarrollo</button>
+      <button class="tab-item" onclick="showDocTab('cierre')">Cierre</button>
+      <button class="tab-item" onclick="showDocTab('todos')">Todos</button>
+    </div>
+  </div>
+
+  <div id="doc-inicio" class="doc-tab">
+    <span class="section-label">Sección de inicio</span>
+    <div class="doc-grid" id="doc-grid-inicio"></div>
+  </div>
+  <div id="doc-desarrollo" class="doc-tab hidden">
+    <span class="section-label">Sección de desarrollo</span>
+    <div class="doc-grid" id="doc-grid-desarrollo"></div>
+  </div>
+  <div id="doc-cierre" class="doc-tab hidden">
+    <span class="section-label">Sección de cierre / conclusión</span>
+    <div class="doc-grid" id="doc-grid-cierre"></div>
+  </div>
+  <div id="doc-todos" class="doc-tab hidden">
+    <span class="section-label">Todos los marcos</span>
+    <div class="doc-grid" id="doc-grid-todos"></div>
+  </div>
+
+  <div class="card" style="margin-top:24px">
+    <h2>Estructura general de un paper</h2>
+    <div class="flow-diagram" id="flow-diagram"></div>
+    <p style="font-size:13px;color:var(--text-muted);margin-top:10px">Esta es la estructura típica de un artículo académico (IMRAD + extras). No todos los papers tienen todos los marcos — depende del tipo de texto.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PÁGINA 3 — PALABRAS CLAVE
+═══════════════════════════════════════════════════════════════ -->
+<div id="page-keywords" class="page">
+  <h1>Palabras y frases clave</h1>
+  <p class="subtitle">Las expresiones en inglés que te permiten identificar cada marco teórico a golpe de vista.</p>
+
+  <input type="text" class="kw-search" id="kw-search" placeholder="Buscar una palabra o frase... ej: aim, whereas, thus" oninput="filterKW()">
+  <div id="kw-container"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PÁGINA 4 — JUEGOS
+═══════════════════════════════════════════════════════════════ -->
+<div id="page-juegos" class="page">
+  <h1>Juegos de repaso</h1>
+  <p class="subtitle">Tres juegos para afianzar la identificación de marcos teóricos.</p>
+
+  <!-- JUEGO 1: Velocidad -->
+  <div class="game-card">
+    <h2>⚡ Carrera contrarreloj</h2>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px">Clasificá todos los extractos lo más rápido posible. El tiempo corre desde que empezás.</p>
+    <div class="timer" id="timer-display">0:00</div>
+    <div id="speed-game-area">
+      <div id="speed-current" style="margin-bottom:16px"></div>
+      <div id="speed-options" class="options-grid"></div>
+      <div id="speed-feedback" class="feedback"></div>
+    </div>
+    <div id="speed-result" class="hidden" style="text-align:center;padding:20px">
+      <div class="stars" id="speed-stars"></div>
+      <div style="font-size:20px;font-weight:700;margin:10px 0" id="speed-final-time"></div>
+      <div style="color:var(--text-muted);font-size:14px" id="speed-final-score"></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="speed-start-btn" onclick="startSpeedGame()">▶ Comenzar</button>
+      <button class="btn btn-outline hidden" id="speed-restart-btn" onclick="startSpeedGame()">↺ Jugar de nuevo</button>
+    </div>
+  </div>
+
+  <!-- JUEGO 2: Arrastrar y soltar -->
+  <div class="game-card">
+    <h2>🧩 Armá el paper</h2>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px">Arrastrá cada marco al lugar correcto de la estructura IMRAD.</p>
+    <div id="drag-drop-game"></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="initDragDrop()">↺ Reiniciar</button>
+      <button class="btn btn-outline" onclick="checkDragDrop()">✓ Verificar</button>
+    </div>
+  </div>
+
+  <!-- JUEGO 3: Wordle de palabras clave -->
+  <div class="game-card">
+    <h2>🃏 Flashcards rápidas</h2>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px">Te mostramos una frase en inglés. Decidí a qué marco pertenece.</p>
+    <div id="flash-card" style="min-height:120px;background:#f9fafb;border-radius:var(--radius);padding:20px;margin-bottom:16px;display:flex;align-items:center;justify-content:center;font-size:16px;font-style:italic;color:#374151;border:1.5px solid var(--border);text-align:center"></div>
+    <div id="flash-options" class="options-grid"></div>
+    <div id="flash-feedback" class="feedback"></div>
+    <div style="margin-top:12px;font-size:13px;color:var(--text-muted)">Progreso: <span id="flash-progress">0 / 0</span></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="startFlash()">▶ Comenzar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PÁGINA 5 — GLOSARIO
+═══════════════════════════════════════════════════════════════ -->
+<div id="page-glosario" class="page">
+  <h1>Glosario por texto</h1>
+  <p class="subtitle">Vocabulario específico de cada paper: términos técnicos con su traducción al español y una nota de uso.</p>
+
+  <input type="text" id="glos-search" placeholder="Buscar término en inglés o español..." oninput="filterGlosario()"
+    style="width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;margin-bottom:20px;outline:none;transition:border-color .15s">
+
+  <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px" id="glos-text-filters">
+    <button class="filter-btn active" onclick="filterGlosText('all',this)">Todos los textos</button>
+  </div>
+
+  <div id="glos-container"></div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════
+   DATOS CENTRALES
+═══════════════════════════════════════════════════════════ */
+const MARCOS = {
+  intro:     { label:'Introducción',   color:'m-intro',     en:'Introduction' },
+  gap:       { label:'GAP',            color:'m-gap',       en:'Research Gap' },
+  objetivo:  { label:'Objetivo',       color:'m-objetivo',  en:'Objective / Aim' },
+  hipotesis: { label:'Hipótesis',      color:'m-hipotesis', en:'Hypothesis' },
+  metodo:    { label:'Método',         color:'m-metodo',    en:'Method / Methodology' },
+  resultado: { label:'Resultado',      color:'m-resultado', en:'Result / Finding' },
+  conclusion:{ label:'Conclusión',     color:'m-concl',     en:'Conclusion' },
+  antecedentes:{label:'Antecedentes',  color:'m-ant',       en:'Background / Prior work' },
+  limitacion:{ label:'Limitación',     color:'m-limit',     en:'Limitation' },
+  discusion: { label:'Discusión',      color:'m-disc',      en:'Discussion' },
+  contexto:  { label:'Contextualización',color:'m-context', en:'Context / Background' },
+  problema:  { label:'Problemática',   color:'m-problem',   en:'Problem statement' },
+  contrib:   { label:'Contribución',   color:'m-contrib',   en:'Contribution' },
+  futuro:    { label:'Líneas futuras', color:'m-futuro',    en:'Future research' },
+  marco:     { label:'Marco teórico',  color:'m-marco',     en:'Theoretical framework' },
+};
+
+const EXTRACTS = [
+  // TEXT 1 — Expert System Banking
+  { text: "Banking is a vital sector in the economy. The rapid advances in computer technology over the past decade have brought about fundamental changes in the service sector, including banking.", answer:'intro', source:'Texto 1 — Expert System in Banking', hint:'Describe el campo y la relevancia del tema sin mencionar vacíos ni objetivos.' },
+  { text: "However, despite these advances, there is still a notable lack of intelligent systems that can assist bank officers in handling complex insurance queries efficiently and accurately.", answer:'gap', source:'Texto 1 — Expert System in Banking', hint:'Señala lo que falta o no existe todavía en la literatura.' },
+  { text: "This study aims to design and develop an expert system for bank insurance that can provide intelligent assistance to bank officers in handling insurance-related queries.", answer:'objetivo', source:'Texto 1 — Expert System in Banking', hint:'Usa el verbo "aims to" — señal directa de objetivo.' },
+  { text: "The system was evaluated using a set of 50 test cases derived from real banking scenarios. Results showed an accuracy rate of 87% in query resolution.", answer:'resultado', source:'Texto 1 — Expert System in Banking', hint:'Reporta datos y porcentajes concretos obtenidos.' },
+  { text: "The expert system developed in this study successfully demonstrates the potential of AI in enhancing banking services, particularly in insurance query handling.", answer:'conclusion', source:'Texto 1 — Expert System in Banking', hint:'Resume y evalúa los logros del trabajo.' },
+
+  // TEXT 2 — Soft Skills
+  { text: "In today's competitive job market, soft skills have increasingly become a key determinant of professional success. Communication, teamwork, and emotional intelligence are cited by employers as critical competencies.", answer:'intro', source:'Texto 2 — Soft Skills in the Workplace', hint:'Establece el contexto general del tema.' },
+  { text: "Previous studies have focused predominantly on technical competencies, leaving a significant gap in understanding how soft skills impact career advancement across different industries.", answer:'gap', source:'Texto 2 — Soft Skills in the Workplace', hint:'"leaving a significant gap" es el marcador clave.' },
+  { text: "This paper examines the role of soft skills in professional performance and explores strategies for their development in workplace training programs.", answer:'objetivo', source:'Texto 2 — Soft Skills in the Workplace', hint:'"examines" y "explores" son verbos típicos de objetivo.' },
+  { text: "Soft skills are interpersonal competencies that facilitate effective interaction and performance in a work environment. Goleman (1995) defines emotional intelligence as…", answer:'marco', source:'Texto 2 — Soft Skills in the Workplace', hint:'Define conceptos apoyándose en autores previos.' },
+  { text: "The findings indicate that employees with stronger soft skills are 40% more likely to be promoted within their first three years of employment.", answer:'resultado', source:'Texto 2 — Soft Skills in the Workplace', hint:'Dato cuantitativo directo de la investigación.' },
+
+  // TEXT 3 — Waste Recycling
+  { text: "Waste recycling remains a major challenge in developing countries, where limited infrastructure and low environmental awareness hinder effective waste management strategies.", answer:'problema', source:'Texto 3 — Waste Recycling', hint:'Describe una situación problemática que justifica la investigación.' },
+  { text: "This study investigates consumer attitudes and behaviors toward domestic waste recycling in a developing-country context, using Nigeria as a case study.", answer:'objetivo', source:'Texto 3 — Waste Recycling', hint:'"investigates" + "using X as a case study" es un patrón de objetivo.' },
+  { text: "A survey of 320 households was conducted using a structured questionnaire. Data were analyzed using descriptive statistics and logistic regression.", answer:'metodo', source:'Texto 3 — Waste Recycling', hint:'Describe cómo se recolectaron y analizaron los datos.' },
+  { text: "Results revealed that awareness of recycling benefits was the strongest predictor of recycling behavior, explaining 32% of variance in the regression model.", answer:'resultado', source:'Texto 3 — Waste Recycling', hint:'"results revealed" y porcentaje estadístico = resultado.' },
+  { text: "One limitation of this study is its reliance on self-reported data, which may be subject to social desirability bias.", answer:'limitacion', source:'Texto 3 — Waste Recycling', hint:'"limitation" aparece explícitamente.' },
+  { text: "Future studies should examine recycling behaviors across different cultural contexts and explore the role of government incentives in promoting recycling.", answer:'futuro', source:'Texto 3 — Waste Recycling', hint:'"Future studies should" es la señal más clara de líneas futuras.' },
+
+  // TEXT 4 — IoT eHealth
+  { text: "The Internet of Things (IoT) represents a paradigm shift in how devices communicate and interact. In the healthcare sector, IoT enables real-time monitoring of patient vital signs, remote diagnostics, and automated medication systems.", answer:'contexto', source:'Texto 4 — IoT eHealth', hint:'Explica el contexto tecnológico antes de presentar el problema central.' },
+  { text: "This paper proposes a smart and ubiquitous eHealth framework based on IoT, designed to improve healthcare delivery in both urban and rural settings.", answer:'objetivo', source:'Texto 4 — IoT eHealth', hint:'"proposes" es verbo típico de objetivo en sistemas/tecnología.' },
+  { text: "The proposed system integrates wearable sensors, cloud computing, and machine learning algorithms to provide continuous and intelligent health monitoring.", answer:'metodo', source:'Texto 4 — IoT eHealth', hint:'Describe la arquitectura o técnicas utilizadas.' },
+  { text: "Security and privacy remain key concerns, as IoT devices are susceptible to cyberattacks and unauthorized data access.", answer:'limitacion', source:'Texto 4 — IoT eHealth', hint:'Señala debilidades o riesgos del sistema propuesto.' },
+
+  // TEXT 5 — Dogs & Brain Activity
+  { text: "Human-animal interaction (HAI) research has shown that contact with animals can reduce stress, lower cortisol levels, and improve mood. Dogs, in particular, have been widely studied in therapeutic contexts.", answer:'antecedentes', source:'Texto 5 — Dogs & Prefrontal Activity', hint:'Resume investigación previa relevante al tema.' },
+  { text: "We hypothesized that contact with a dog would significantly increase prefrontal brain activity, as measured by near-infrared spectroscopy (NIRS), compared to a control condition.", answer:'hipotesis', source:'Texto 5 — Dogs & Prefrontal Activity', hint:'"We hypothesized that" es el marcador textual de hipótesis.' },
+  { text: "Thirty participants were randomly assigned to either a dog-contact condition or a control (reading) condition. Prefrontal oxygenation was measured using NIRS at baseline and post-condition.", answer:'metodo', source:'Texto 5 — Dogs & Prefrontal Activity', hint:'Diseño experimental: participantes, condiciones, instrumentos.' },
+  { text: "Participants in the dog-contact condition showed significantly higher prefrontal oxygenation (p < 0.01) compared to the control group, suggesting enhanced cognitive engagement.", answer:'resultado', source:'Texto 5 — Dogs & Prefrontal Activity', hint:'Datos estadísticos (p-value) y comparación entre grupos.' },
+  { text: "These findings contribute to the growing body of evidence supporting the cognitive and emotional benefits of human-animal interaction, with implications for therapeutic applications.", answer:'contrib', source:'Texto 5 — Dogs & Prefrontal Activity', hint:'"contribute to" y "implications" marcan la contribución del trabajo.' },
+
+  // TEXT 6 — Bumblebees Electric Charge
+  { text: "Insects can detect and respond to electric fields in their environment. Bumblebees have been found to sense floral electric fields, potentially using them as cues during foraging.", answer:'intro', source:'Texto 6 — Bumblebee Electric Charges', hint:'Introduce el fenómeno biológico de fondo.' },
+  { text: "Despite growing interest in insect electrostatics, systematic measurement of electric charges acquired during natural foraging has not been conducted.", answer:'gap', source:'Texto 6 — Bumblebee Electric Charges', hint:'"has not been conducted" = vacío en la literatura.' },
+  { text: "This study aims to quantify the electrostatic charges accumulated by foraging Bombus terrestris workers during natural flower visits.", answer:'objetivo', source:'Texto 6 — Bumblebee Electric Charges', hint:'"aims to quantify" — objetivo de medición.' },
+  { text: "Individual bees were collected immediately after foraging and measured using a Faraday cage connected to an electrometer. Measurements were taken from 50 bees across 5 colonies.", answer:'metodo', source:'Texto 6 — Bumblebee Electric Charges', hint:'Detalla el instrumento y el procedimiento de recolección de datos.' },
+  { text: "Foraging bees carried positive charges ranging from 10 to 65 pC, with a mean of 32 pC. Charge magnitude correlated positively with the number of flowers visited.", answer:'resultado', source:'Texto 6 — Bumblebee Electric Charges', hint:'Valores cuantitativos precisos + correlación = resultado.' },
+
+  // TEXT 7 — AI in Education
+  { text: "Artificial Intelligence in Education (AIED) has emerged as a transformative field, promising to personalize learning experiences, automate administrative tasks, and provide intelligent tutoring.", answer:'intro', source:'Texto 7 — AI in Education', hint:'Presenta el campo y sus promesas generales.' },
+  { text: "This review systematically examined 87 peer-reviewed articles published between 2015 and 2023, retrieved from Web of Science and Scopus databases.", answer:'metodo', source:'Texto 7 — AI in Education', hint:'Describe la fuente de datos y el proceso de selección de estudios.' },
+  { text: "The majority of reviewed studies (62%) focused on higher education settings, with limited attention to primary and secondary education.", answer:'resultado', source:'Texto 7 — AI in Education', hint:'Porcentaje + distribución de los estudios analizados.' },
+  { text: "The most common AI technologies identified in educational contexts were intelligent tutoring systems (ITS), natural language processing (NLP), and learning analytics platforms.", answer:'resultado', source:'Texto 7 — AI in Education', hint:'Enumeración de hallazgos de la revisión.' },
+  { text: "While AIED offers significant promise, concerns about algorithmic bias, data privacy, and equitable access must be addressed before widespread adoption.", answer:'discusion', source:'Texto 7 — AI in Education', hint:'Interpreta resultados e introduce matices y tensiones.' },
+  { text: "This review provides a comprehensive overview of the current state of AI in education, highlighting key trends and identifying areas requiring further investigation.", answer:'contrib', source:'Texto 7 — AI in Education', hint:'"provides a comprehensive overview" y "highlighting" señalan contribución.' },
+
+  // TEXT 8 — Mechatronic Systems
+  { text: "The growing demand for customized mechatronic systems has created a need for automated configuration tools that can translate customer requirements into optimal system designs.", answer:'problema', source:'Texto 8 — Mechatronic Configuration', hint:'Establece la necesidad o problema que motiva la investigación.' },
+  { text: "This paper proposes an automated configuration approach using behavior models to generate customer-specific mechatronic systems, reducing manual engineering effort.", answer:'objetivo', source:'Texto 8 — Mechatronic Configuration', hint:'"proposes" introduce el objetivo/solución propuesta.' },
+  { text: "The configuration engine is based on constraint satisfaction programming (CSP) and integrates behavior models defined in SysML. The algorithm iterates over customer requirement parameters to generate valid system configurations.", answer:'metodo', source:'Texto 8 — Mechatronic Configuration', hint:'Describe la arquitectura técnica y el algoritmo empleado.' },
+  { text: "The proposed approach was validated using three industrial case studies from the automotive sector. Configuration time was reduced by 73% compared to manual methods.", answer:'resultado', source:'Texto 8 — Mechatronic Configuration', hint:'"validated using case studies" + porcentaje de mejora = resultado.' },
+  { text: "The automated configuration method demonstrated high scalability and adaptability, suggesting strong potential for industrial deployment in customized manufacturing environments.", answer:'conclusion', source:'Texto 8 — Mechatronic Configuration', hint:'Evalúa el sistema y proyecta su aplicabilidad futura.' },
+];
+
+const DOC_ITEMS = [
+  { key:'intro',    section:'inicio',    titulo:'Introducción', def:'Presenta el tema general, el contexto y la relevancia del estudio. Suele ser el primer párrafo o sección del paper. Responde a "¿de qué trata esto y por qué importa?"', ubicacion:'Inicio' },
+  { key:'contexto', section:'inicio',    titulo:'Contextualización', def:'Describe el entorno, campo o situación específica donde ocurre el fenómeno estudiado. Puede incluir datos históricos, estadísticos o descriptivos del escenario.', ubicacion:'Inicio' },
+  { key:'problema', section:'inicio',    titulo:'Problemática', def:'Enuncia el problema concreto que justifica la investigación. Responde a "¿qué está fallando, qué no funciona bien, qué necesita solución?"', ubicacion:'Inicio' },
+  { key:'marco',    section:'inicio',    titulo:'Marco teórico', def:'Revisión de los conceptos, teorías y modelos teóricos que sostienen la investigación. Cita autores y define los términos centrales del estudio.', ubicacion:'Inicio' },
+  { key:'antecedentes',section:'inicio', titulo:'Antecedentes', def:'Resume estudios, investigaciones o trabajos previos relacionados con el tema. Ubica la investigación actual dentro de la literatura existente.', ubicacion:'Inicio' },
+  { key:'gap',      section:'inicio',    titulo:'GAP (brecha)', def:'Señala lo que la literatura no ha estudiado, lo que falta, lo que se contradice o lo que está incompleto. Justifica por qué este nuevo estudio es necesario.', ubicacion:'Inicio' },
+  { key:'objetivo', section:'inicio',    titulo:'Objetivo / Propósito', def:'Declara qué se pretende lograr con la investigación. Puede ser explorar, describir, comparar, proponer, evaluar, medir, etc. Se expresa con verbos de acción.', ubicacion:'Inicio / Desarrollo' },
+  { key:'hipotesis',section:'inicio',    titulo:'Hipótesis', def:'Afirmación provisional que el estudio busca confirmar o refutar. Establece una relación esperada entre variables. Típica en estudios experimentales.', ubicacion:'Inicio' },
+  { key:'metodo',   section:'desarrollo',titulo:'Método / Metodología', def:'Describe cómo se realizó la investigación: diseño, participantes, instrumentos, procedimientos y análisis. Debe ser lo suficientemente detallado para que alguien pueda replicar el estudio.', ubicacion:'Desarrollo' },
+  { key:'resultado',section:'desarrollo',titulo:'Resultado', def:'Presenta los hallazgos obtenidos, generalmente con datos cuantitativos o cualitativos. No incluye interpretación — solo reporta lo que se encontró.', ubicacion:'Desarrollo' },
+  { key:'discusion',section:'desarrollo',titulo:'Discusión', def:'Interpreta los resultados, los compara con estudios anteriores, y explica su significado. Puede incluir limitaciones y contradicciones encontradas.', ubicacion:'Desarrollo / Cierre' },
+  { key:'conclusion',section:'cierre',   titulo:'Conclusión', def:'Sintetiza los hallazgos principales, evalúa si se cumplieron los objetivos y extrae implicancias. Puede incluir recomendaciones.', ubicacion:'Cierre' },
+  { key:'contrib',  section:'cierre',    titulo:'Contribución', def:'Especifica qué aporta este estudio al campo: nuevo conocimiento, herramienta, modelo, método, o implicancias prácticas. Responde a "¿qué ganamos con esto?"', ubicacion:'Cierre' },
+  { key:'limitacion',section:'cierre',   titulo:'Limitaciones', def:'Reconoce las restricciones del estudio: tamaño muestral, contexto, sesgos, instrumentos, etc. Aparece en discusión y/o conclusión.', ubicacion:'Cierre / Discusión' },
+  { key:'futuro',   section:'cierre',    titulo:'Líneas de investigación futuras', def:'Propone temas o preguntas que quedan pendientes para estudios posteriores. Demuestra que la investigación tiene continuidad.', ubicacion:'Cierre' },
+];
+
+const FLOW_ITEMS = [
+  {label:'Intro',color:'#dbeafe',tc:'#1e40af',border:'#93c5fd'},
+  {label:'GAP',color:'#fee2e2',tc:'#991b1b',border:'#fca5a5'},
+  {label:'Objetivo',color:'#d1fae5',tc:'#065f46',border:'#6ee7b7'},
+  {label:'Marco Teórico',color:'#fef3c7',tc:'#92400e',border:'#fcd34d'},
+  {label:'Método',color:'#ede9fe',tc:'#4c1d95',border:'#c4b5fd'},
+  {label:'Resultados',color:'#fdf4ff',tc:'#6b21a8',border:'#e879f9'},
+  {label:'Discusión',color:'#f0fdf4',tc:'#14532d',border:'#86efac'},
+  {label:'Conclusión',color:'#ecfdf5',tc:'#065f46',border:'#34d399'},
+];
+
+const KEYWORDS = [
+  { marco:'objetivo',   words:['aim','aims to','the purpose of','this study seeks','the goal is','we intend to','the objective of','this paper proposes','this work examines','we investigate','this research explores'] },
+  { marco:'hipotesis',  words:['we hypothesize','we hypothesized','it is hypothesized','we assume','the hypothesis is','we predicted','it was expected that','we expect'] },
+  { marco:'gap',        words:['however, little is known','no study has','has not been studied','remains unclear','gap in the literature','limited research','there is a lack of','few studies have','this area has received little attention','has been overlooked'] },
+  { marco:'intro',      words:['in recent years','has become increasingly','plays a crucial role','it is well established','over the past decade','is widely recognized','this paper is organized as follows'] },
+  { marco:'metodo',     words:['a sample of','data were collected','participants were','we used','was conducted using','questionnaires were','an experiment was designed','the instrument used','N =','was measured using','the procedure involved'] },
+  { marco:'resultado',  words:['results showed','findings indicate','the analysis revealed','we found','p <','p >','statistically significant','there was a significant','mean score','our results demonstrate','the data suggest'] },
+  { marco:'conclusion', words:['in conclusion','to summarize','overall, this study','these findings suggest','the results support','this paper has shown','taken together','in summary','we conclude that'] },
+  { marco:'limitacion', words:['one limitation','this study is limited by','a potential drawback','future studies should note','it should be acknowledged','constraint of this study','the sample was limited','cannot be generalized'] },
+  { marco:'discusion',  words:['these results are consistent with','contrary to','this finding extends','it is noteworthy that','this may be explained by','however, it is important to note','although','whereas','while previous studies'] },
+  { marco:'futuro',     words:['future research should','future studies could','further investigation is needed','it would be valuable to','we recommend that future','opens avenues for','warrants further study','the next step'] },
+  { marco:'contrib',    words:['this study contributes','our contribution is','a novel approach','to the best of our knowledge','this is the first study','we advance the field','this paper provides'] },
+  { marco:'antecedentes',words:['prior studies have','previous research','a growing body of evidence','several authors have','it has been demonstrated','earlier work by','studies have shown'] },
+  { marco:'contexto',   words:['in the context of','in recent years the field of','with the advent of','in today\'s','given the increasing','in the domain of','in the setting of'] },
+  { marco:'marco',      words:['according to','theory of','framework of','as defined by','is conceptualized as','builds on the work of','theoretical underpinning','we adopt the perspective of'] },
+  { marco:'problema',   words:['the problem of','this poses a challenge','the issue is','constitutes a major challenge','this hampers','this prevents','the challenge lies in'] },
+];
+
+const FLASH_PHRASES = [
+  { phrase:'"This study aims to examine the relationship between..."', answer:'objetivo' },
+  { phrase:'"We hypothesized that exposure would significantly increase..."', answer:'hipotesis' },
+  { phrase:'"Despite extensive research, no study has addressed..."', answer:'gap' },
+  { phrase:'"A total of 120 participants were recruited and randomly assigned to..."', answer:'metodo' },
+  { phrase:'"Results showed a statistically significant effect (p < .05)..."', answer:'resultado' },
+  { phrase:'"In conclusion, the findings suggest that..."', answer:'conclusion' },
+  { phrase:'"One limitation of this study is the small sample size..."', answer:'limitacion' },
+  { phrase:'"These findings are consistent with prior work by Smith et al. (2019)..."', answer:'discusion' },
+  { phrase:'"Future research should investigate the long-term effects of..."', answer:'futuro' },
+  { phrase:'"This paper contributes a novel framework for..."', answer:'contrib' },
+  { phrase:'"Previous studies have shown that stress is associated with..."', answer:'antecedentes' },
+  { phrase:'"In the context of digital transformation, organizations face..."', answer:'contexto' },
+  { phrase:'"Emotional intelligence, as defined by Goleman (1995), refers to..."', answer:'marco' },
+  { phrase:'"The lack of accessible healthcare in rural areas remains a critical challenge..."', answer:'problema' },
+  { phrase:'"In recent years, artificial intelligence has emerged as a key driver of..."', answer:'intro' },
+];
+
+/* ═══════════════════════════════════════════════════════════
+   ESTADO GLOBAL
+═══════════════════════════════════════════════════════════ */
+let answered = {}, scores = { total:0, correct:0 };
+let speedQueue=[], speedIdx=0, speedCorrect=0, speedTimer=null, speedSeconds=0, speedActive=false;
+let flashQueue=[], flashIdx=0;
+let currentFilter = 'all';
+
+/* ═══════════════════════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════════════════════ */
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+/* ═══════════════════════════════════════════════════════════
+   PRÁCTICA
+═══════════════════════════════════════════════════════════ */
+function badgeHTML(key){
+  const m=MARCOS[key]||{label:key,color:'m-ant'};
+  return `<span class="badge ${m.color}">${m.label}</span>`;
+}
+
+function buildExtracts(){
+  const container=document.getElementById('extracts-container');
+  container.innerHTML='';
+  EXTRACTS.forEach((ex,i)=>{
+    const div=document.createElement('div');
+    div.className='extract-card';
+    div.dataset.answer=ex.answer;
+    div.dataset.idx=i;
+    const opts=shuffleOpts(ex.answer);
+    const optBtns=opts.map(k=>{
+      const m=MARCOS[k];
+      return `<button class="opt-btn" data-key="${k}" onclick="answerExtract(${i},'${k}',this)">${m.label}</button>`;
+    }).join('');
+    div.innerHTML=`
+      <div class="extract-meta">${ex.source}</div>
+      <div class="extract-text">"${ex.text}"</div>
+      <div class="options-grid">${optBtns}</div>
+      <div class="feedback" id="fb-${i}"></div>
+    `;
+    if(answered[i]!==undefined) restoreAnswer(div,i,ex.answer);
+    container.appendChild(div);
+  });
+  updateProgress();
+}
+
+function shuffleOpts(correct){
+  const pool=Object.keys(MARCOS);
+  const wrong=pool.filter(k=>k!==correct).sort(()=>Math.random()-.5).slice(0,4);
+  return [correct,...wrong].sort(()=>Math.random()-.5);
+}
+
+function answerExtract(idx, chosen, btn){
+  if(answered[idx]!==undefined) return;
+  const card=btn.closest('.extract-card');
+  const correct=EXTRACTS[idx].answer;
+  const fb=document.getElementById('fb-'+idx);
+  card.querySelectorAll('.opt-btn').forEach(b=>{
+    b.disabled=true;
+    if(b.dataset.key===correct) b.classList.add(chosen===correct?'correct':'reveal');
+    if(b.dataset.key===chosen && chosen!==correct) b.classList.add('wrong');
+  });
+  const isOk=chosen===correct;
+  answered[idx]=isOk;
+  scores.total++;
+  if(isOk) scores.correct++;
+  fb.className='feedback '+(isOk?'ok':'fail');
+  fb.textContent=isOk
+    ? `✓ Correcto. Es ${MARCOS[correct].label}. ${EXTRACTS[idx].hint}`
+    : `✗ Era ${MARCOS[correct].label}. ${EXTRACTS[idx].hint}`;
+  updateProgress();
+}
+
+function restoreAnswer(div,i,correct){
+  div.querySelectorAll('.opt-btn').forEach(b=>{
+    b.disabled=true;
+    if(b.dataset.key===correct) b.classList.add('reveal');
+  });
+}
+
+function updateProgress(){
+  const total=EXTRACTS.length;
+  const done=Object.keys(answered).length;
+  document.getElementById('score-num').textContent=done;
+  document.getElementById('score-total').textContent=total;
+  document.getElementById('score-correct').textContent=scores.correct;
+  document.getElementById('progress-fill').style.width=(done/total*100)+'%';
+}
+
+function filterExtracts(type, btn){
+  currentFilter=type;
+  document.querySelectorAll('#filter-row .filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.extract-card').forEach(card=>{
+    const ans=card.dataset.answer;
+    card.style.display=(type==='all'||ans===type)?'block':'none';
+  });
+}
+
+function resetAll(){
+  answered={};scores={total:0,correct:0};
+  buildExtracts();
+  filterExtracts(currentFilter,document.querySelector('#filter-row .filter-btn.active'));
+}
+
+/* ═══════════════════════════════════════════════════════════
+   DOCUMENTACIÓN
+═══════════════════════════════════════════════════════════ */
+function buildDoc(){
+  ['inicio','desarrollo','cierre','todos'].forEach(sec=>{
+    const grid=document.getElementById('doc-grid-'+sec);
+    const items=sec==='todos'?DOC_ITEMS:DOC_ITEMS.filter(d=>d.section===sec);
+    grid.innerHTML=items.map(d=>{
+      const m=MARCOS[d.key]||{color:'m-ant'};
+      return `<div class="doc-card">
+        <span class="badge ${m.color}" style="margin-bottom:8px">${d.titulo}</span>
+        <p>${d.def}</p>
+        <div class="ubicacion" style="color:var(--text-muted)">📍 ${d.ubicacion}</div>
+      </div>`;
+    }).join('');
+  });
+
+  const flow=document.getElementById('flow-diagram');
+  flow.innerHTML=FLOW_ITEMS.map((f,i)=>`
+    <div class="flow-box" style="background:${f.color};color:${f.tc};border-color:${f.border}">${f.label}</div>
+    ${i<FLOW_ITEMS.length-1?'<span class="flow-arrow">→</span>':''}
+  `).join('');
+}
+
+function showDocTab(tab){
+  document.querySelectorAll('.doc-tab').forEach(t=>t.classList.add('hidden'));
+  document.getElementById('doc-'+tab).classList.remove('hidden');
+  document.querySelectorAll('.tab-item').forEach(t=>t.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+/* ═══════════════════════════════════════════════════════════
+   PALABRAS CLAVE
+═══════════════════════════════════════════════════════════ */
+const DOT_COLORS={
+  objetivo:'#059669',hipotesis:'#db2777',gap:'#dc2626',intro:'#2563eb',
+  metodo:'#d97706',resultado:'#7c3aed',conclusion:'#065f46',limitacion:'#ea580c',
+  discusion:'#15803d',futuro:'#0f766e',contrib:'#7e22ce',antecedentes:'#374151',
+  contexto:'#0369a1',marco:'#a16207',problema:'#be123c'
+};
+
+function buildKW(){
+  const container=document.getElementById('kw-container');
+  container.innerHTML=KEYWORDS.map(section=>{
+    const m=MARCOS[section.marco]||{label:section.marco,color:'m-ant'};
+    const color=DOT_COLORS[section.marco]||'#6b7280';
+    return `<div class="kw-section" data-marco="${section.marco}">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+        <span class="badge ${m.color}">${m.label}</span>
+        <span style="font-size:12px;color:var(--text-muted)">${section.words.length} expresiones</span>
+      </div>
+      <div class="kw-grid">
+        ${section.words.map(w=>`<div class="kw-chip" data-word="${w.toLowerCase()}"><span class="dot" style="background:${color}"></span>${w}</div>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function filterKW(){
+  const q=document.getElementById('kw-search').value.toLowerCase().trim();
+  if(!q){ document.querySelectorAll('.kw-section').forEach(s=>s.style.display=''); return; }
+  document.querySelectorAll('.kw-section').forEach(section=>{
+    let anyVisible=false;
+    section.querySelectorAll('.kw-chip').forEach(chip=>{
+      const match=chip.dataset.word.includes(q);
+      chip.style.display=match?'':'none';
+      if(match) anyVisible=true;
+    });
+    section.style.display=anyVisible?'':'none';
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════
+   JUEGO 1 — VELOCIDAD
+═══════════════════════════════════════════════════════════ */
+function startSpeedGame(){
+  speedQueue=[...EXTRACTS].sort(()=>Math.random()-.5);
+  speedIdx=0; speedCorrect=0; speedSeconds=0; speedActive=true;
+  clearInterval(speedTimer);
+  document.getElementById('speed-result').classList.add('hidden');
+  document.getElementById('speed-game-area').style.display='block';
+  document.getElementById('speed-start-btn').classList.add('hidden');
+  document.getElementById('speed-restart-btn').classList.add('hidden');
+  speedTimer=setInterval(()=>{ speedSeconds++; updateTimerDisplay(); },1000);
+  showSpeedQuestion();
+}
+
+function updateTimerDisplay(){
+  const m=Math.floor(speedSeconds/60), s=speedSeconds%60;
+  document.getElementById('timer-display').textContent=m+':'+(s<10?'0':'')+s;
+}
+
+function showSpeedQuestion(){
+  if(speedIdx>=speedQueue.length){ endSpeedGame(); return; }
+  const ex=speedQueue[speedIdx];
+  const div=document.getElementById('speed-current');
+  div.innerHTML=`<div style="font-size:12px;color:var(--text-muted);margin-bottom:6px">${speedIdx+1}/${speedQueue.length} — ${ex.source}</div>
+    <div class="extract-text">"${ex.text}"</div>`;
+  const opts=shuffleOpts(ex.answer);
+  document.getElementById('speed-options').innerHTML=opts.map(k=>{
+    const m=MARCOS[k];
+    return `<button class="opt-btn" onclick="answerSpeed('${k}','${ex.answer}',this)">${m.label}</button>`;
+  }).join('');
+  document.getElementById('speed-feedback').className='feedback';
+}
+
+function answerSpeed(chosen,correct,btn){
+  document.querySelectorAll('#speed-options .opt-btn').forEach(b=>b.disabled=true);
+  const fb=document.getElementById('speed-feedback');
+  const isOk=chosen===correct;
+  if(isOk){ speedCorrect++; }
+  btn.classList.add(isOk?'correct':'wrong');
+  if(!isOk) document.querySelector(`#speed-options .opt-btn[onclick*="'${correct}'"]`).classList.add('reveal');
+  fb.className='feedback '+(isOk?'ok':'fail');
+  fb.textContent=isOk?'✓ Correcto':'✗ Era: '+MARCOS[correct].label;
+  setTimeout(()=>{ speedIdx++; showSpeedQuestion(); },800);
+}
+
+function endSpeedGame(){
+  clearInterval(speedTimer);
+  document.getElementById('speed-game-area').style.display='none';
+  const result=document.getElementById('speed-result');
+  result.classList.remove('hidden');
+  const pct=Math.round(speedCorrect/speedQueue.length*100);
+  const stars=pct>=90?'⭐⭐⭐':pct>=70?'⭐⭐':'⭐';
+  document.getElementById('speed-stars').textContent=stars;
+  document.getElementById('speed-final-time').textContent=document.getElementById('timer-display').textContent;
+  document.getElementById('speed-final-score').textContent=`${speedCorrect}/${speedQueue.length} correctas (${pct}%)`;
+  document.getElementById('speed-restart-btn').classList.remove('hidden');
+}
+
+/* ═══════════════════════════════════════════════════════════
+   JUEGO 2 — DRAG & DROP
+═══════════════════════════════════════════════════════════ */
+const DRAG_ITEMS=[
+  {word:'Introducción',answer:'inicio'},
+  {word:'GAP',answer:'inicio'},
+  {word:'Objetivo',answer:'inicio'},
+  {word:'Hipótesis',answer:'inicio'},
+  {word:'Método',answer:'desarrollo'},
+  {word:'Resultados',answer:'desarrollo'},
+  {word:'Discusión',answer:'desarrollo'},
+  {word:'Conclusión',answer:'cierre'},
+  {word:'Limitaciones',answer:'cierre'},
+  {word:'Líneas futuras',answer:'cierre'},
+];
+const DRAG_ZONES=['inicio','desarrollo','cierre'];
+
+let dragEl=null;
+function initDragDrop(){
+  const container=document.getElementById('drag-drop-game');
+  const shuffled=[...DRAG_ITEMS].sort(()=>Math.random()-.5);
+  container.innerHTML=`
+    <div style="margin-bottom:16px">
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:10px">Palabras para clasificar:</p>
+      <div id="drag-words" style="display:flex;flex-wrap:wrap;gap:4px;min-height:40px;padding:8px;background:#f9fafb;border-radius:8px;border:1.5px dashed #d1d5db">
+        ${shuffled.map(item=>`<div class="drag-word" draggable="true" data-word="${item.word}" data-answer="${item.answer}">${item.word}</div>`).join('')}
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+      ${DRAG_ZONES.map(z=>`
+        <div>
+          <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text-muted);margin-bottom:6px">${z==='inicio'?'Inicio':z==='desarrollo'?'Desarrollo':'Cierre'}</div>
+          <div class="drop-zone" id="zone-${z}" data-zone="${z}" style="min-height:120px;width:100%;display:block;padding:8px"></div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+  setupDragEvents();
+}
+
+function setupDragEvents(){
+  document.querySelectorAll('.drag-word').forEach(el=>{
+    el.addEventListener('dragstart',e=>{ dragEl=el; setTimeout(()=>el.style.opacity='.4',0); });
+    el.addEventListener('dragend',()=>{ dragEl=null; el.style.opacity='1'; });
+  });
+  document.querySelectorAll('.drop-zone').forEach(zone=>{
+    zone.addEventListener('dragover',e=>{ e.preventDefault(); zone.classList.add('over'); });
+    zone.addEventListener('dragleave',()=>zone.classList.remove('over'));
+    zone.addEventListener('drop',e=>{ e.preventDefault(); zone.classList.remove('over'); if(dragEl){ zone.appendChild(dragEl); dragEl.style.opacity='1'; } });
+  });
+  const words=document.getElementById('drag-words');
+  words.addEventListener('dragover',e=>{ e.preventDefault(); words.style.borderColor='var(--accent)'; });
+  words.addEventListener('dragleave',()=>words.style.borderColor='#d1d5db');
+  words.addEventListener('drop',e=>{ e.preventDefault(); words.style.borderColor='#d1d5db'; if(dragEl){ words.appendChild(dragEl); } });
+}
+
+function checkDragDrop(){
+  let ok=0,total=0;
+  document.querySelectorAll('.drop-zone').forEach(zone=>{
+    const zoneId=zone.dataset.zone;
+    zone.querySelectorAll('.drag-word').forEach(word=>{
+      total++;
+      if(word.dataset.answer===zoneId){ ok++; word.style.background='#d1fae5'; word.style.borderColor='#059669'; word.style.color='#065f46'; }
+      else { word.style.background='#fee2e2'; word.style.borderColor='#dc2626'; word.style.color='#991b1b'; }
+    });
+  });
+  const pct=total?Math.round(ok/total*100):0;
+  const msg=document.getElementById('drag-drop-game').querySelector('.drop-msg');
+  const existing=document.getElementById('drag-result-msg');
+  if(existing) existing.remove();
+  const res=document.createElement('div');
+  res.id='drag-result-msg';
+  res.style.cssText='margin-top:14px;padding:12px;border-radius:8px;text-align:center;font-weight:600;font-size:14px;';
+  if(pct===100){ res.style.background='#d1fae5'; res.style.color='#065f46'; res.textContent='¡Perfecto! '+ok+'/'+total; }
+  else { res.style.background='#fef3c7'; res.style.color='#92400e'; res.textContent=ok+'/'+total+' correctos ('+pct+'%) — las rojas están mal ubicadas'; }
+  document.getElementById('drag-drop-game').appendChild(res);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   JUEGO 3 — FLASHCARDS
+═══════════════════════════════════════════════════════════ */
+function startFlash(){
+  flashQueue=[...FLASH_PHRASES].sort(()=>Math.random()-.5);
+  flashIdx=0;
+  showFlash();
+}
+
+function showFlash(){
+  if(flashIdx>=flashQueue.length){
+    document.getElementById('flash-card').textContent='¡Terminaste las flashcards! Presioná "Comenzar" para repetir.';
+    document.getElementById('flash-options').innerHTML='';
+    return;
+  }
+  const item=flashQueue[flashIdx];
+  document.getElementById('flash-card').textContent=item.phrase;
+  document.getElementById('flash-feedback').className='feedback';
+  document.getElementById('flash-progress').textContent=(flashIdx+1)+' / '+flashQueue.length;
+  const opts=shuffleOpts(item.answer);
+  document.getElementById('flash-options').innerHTML=opts.map(k=>{
+    const m=MARCOS[k];
+    return `<button class="opt-btn" data-key="${k}" onclick="answerFlash('${k}','${item.answer}',this)">${m.label}</button>`;
+  }).join('');
+}
+
+function answerFlash(chosen,correct,btn){
+  document.querySelectorAll('#flash-options .opt-btn').forEach(b=>b.disabled=true);
+  const fb=document.getElementById('flash-feedback');
+  const isOk=chosen===correct;
+  btn.classList.add(isOk?'correct':'wrong');
+  if(!isOk) document.querySelector(`#flash-options .opt-btn[data-key="${correct}"]`).classList.add('reveal');
+  fb.className='feedback '+(isOk?'ok':'fail');
+  fb.textContent=isOk?'✓ Correcto':'✗ Era: '+MARCOS[correct].label;
+  setTimeout(()=>{ flashIdx++; showFlash(); },900);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   GLOSARIO POR TEXTO
+═══════════════════════════════════════════════════════════ */
+const TEXTOS_GLOS = [
+  {
+    id:'t1', label:'Texto 1', titulo:'Expert System — Banking & Insurance',
+    color:'#dbeafe', colorText:'#1e40af',
+    words:[
+      { en:'expert system',         es:'sistema experto',                nota:'Software que imita el razonamiento de un especialista humano para resolver problemas en un dominio.' },
+      { en:'knowledge base',        es:'base de conocimiento',           nota:'Repositorio de reglas, hechos y relaciones que alimentan el sistema experto.' },
+      { en:'inference engine',      es:'motor de inferencia',            nota:'Componente que aplica las reglas de la base de conocimiento para llegar a conclusiones.' },
+      { en:'query',                 es:'consulta',                       nota:'Pregunta o solicitud que el usuario le hace al sistema.' },
+      { en:'accuracy rate',         es:'tasa de precisión / exactitud',  nota:'"The system showed an accuracy rate of 87%." — porcentaje de respuestas correctas.' },
+      { en:'insurance',             es:'seguro (producto financiero)',    nota:'Contrato que cubre riesgos a cambio de una prima.' },
+      { en:'bank officer',          es:'ejecutivo bancario / funcionario de banco', nota:'Empleado del banco que interactúa con clientes.' },
+      { en:'test case',             es:'caso de prueba',                 nota:'Escenario diseñado para evaluar si el sistema funciona correctamente.' },
+      { en:'intelligent assistance',es:'asistencia inteligente',         nota:'Apoyo automatizado basado en IA para tomar decisiones.' },
+      { en:'scenario',              es:'escenario',                      nota:'Situación hipotética o real usada para testear el sistema.' },
+    ]
+  },
+  {
+    id:'t2', label:'Texto 2', titulo:'Soft Skills in the Workplace',
+    color:'#fce7f3', colorText:'#9d174d',
+    words:[
+      { en:'soft skills',           es:'habilidades blandas',            nota:'Competencias interpersonales: comunicación, trabajo en equipo, empatía, liderazgo.' },
+      { en:'hard skills',           es:'habilidades duras / técnicas',   nota:'Competencias técnicas y medibles: programar, hablar un idioma, manejar software.' },
+      { en:'emotional intelligence',es:'inteligencia emocional',         nota:'Capacidad de reconocer y gestionar emociones propias y ajenas. Concepto de Goleman (1995).' },
+      { en:'workplace',             es:'lugar de trabajo / entorno laboral', nota:'El espacio físico o virtual donde se desarrolla el trabajo.' },
+      { en:'career advancement',    es:'avance profesional / crecimiento laboral', nota:'Progresión en la carrera: ascensos, mejoras de rol, mayor responsabilidad.' },
+      { en:'competency',            es:'competencia',                    nota:'Habilidad o capacidad específica que se puede evaluar o medir.' },
+      { en:'training program',      es:'programa de capacitación',       nota:'Iniciativa formal para desarrollar habilidades en empleados.' },
+      { en:'job market',            es:'mercado laboral',                nota:'Contexto de oferta y demanda de empleo.' },
+      { en:'professional performance', es:'desempeño profesional',       nota:'Nivel de eficacia con que alguien realiza su trabajo.' },
+      { en:'promoted',              es:'ascendido / promovido',          nota:'"40% more likely to be promoted" — avanzar a un puesto superior.' },
+    ]
+  },
+  {
+    id:'t3', label:'Texto 3', titulo:'Domestic Waste Recycling',
+    color:'#d1fae5', colorText:'#065f46',
+    words:[
+      { en:'recycling',             es:'reciclaje',                      nota:'Proceso de convertir residuos en materiales reutilizables.' },
+      { en:'waste management',      es:'gestión de residuos',            nota:'Conjunto de estrategias para tratar, reducir y eliminar residuos.' },
+      { en:'developing countries',  es:'países en desarrollo',           nota:'Naciones con menor nivel de industrialización e ingresos.' },
+      { en:'consumer attitude',     es:'actitud del consumidor',         nota:'Disposición positiva o negativa hacia un producto, práctica o comportamiento.' },
+      { en:'logistic regression',   es:'regresión logística',            nota:'Técnica estadística para predecir una variable binaria (sí/no) a partir de otras variables.' },
+      { en:'predictor',             es:'predictor / variable predictora',nota:'"Awareness was the strongest predictor of behavior." — variable que anticipa o explica otra.' },
+      { en:'infrastructure',        es:'infraestructura',                nota:'Instalaciones físicas necesarias: plantas de reciclaje, recolección de basura.' },
+      { en:'self-reported data',    es:'datos autorreportados',          nota:'Información que los propios participantes declaran, no medida objetivamente.' },
+      { en:'social desirability bias', es:'sesgo de deseabilidad social',nota:'Tendencia de los encuestados a dar respuestas "bien vistas" en lugar de honestas.' },
+      { en:'household',             es:'hogar / unidad familiar',        nota:'"A survey of 320 households was conducted." — unidad de análisis del estudio.' },
+      { en:'awareness',             es:'conciencia / conocimiento',      nota:'"Awareness of recycling benefits" — nivel de información que tiene la persona.' },
+      { en:'variance',              es:'varianza explicada',             nota:'"Explaining 32% of variance" — qué proporción del comportamiento explica el modelo.' },
+    ]
+  },
+  {
+    id:'t4', label:'Texto 4', titulo:'IoT for eHealth',
+    color:'#e0f2fe', colorText:'#075985',
+    words:[
+      { en:'Internet of Things (IoT)', es:'Internet de las Cosas',       nota:'Red de dispositivos físicos conectados a internet que recopilan e intercambian datos.' },
+      { en:'ubiquitous',            es:'ubicuo / presente en todas partes', nota:'"Ubiquitous eHealth" — el sistema está disponible en cualquier lugar y momento.' },
+      { en:'eHealth',               es:'salud electrónica / salud digital', nota:'Uso de tecnologías digitales para la atención y gestión de la salud.' },
+      { en:'wearable sensor',       es:'sensor vestible / dispositivo wearable', nota:'Dispositivo que se lleva puesto (reloj, pulsera) y mide parámetros corporales.' },
+      { en:'vital signs',           es:'signos vitales',                 nota:'Indicadores básicos de salud: frecuencia cardíaca, temperatura, presión arterial.' },
+      { en:'remote diagnostics',    es:'diagnóstico remoto',             nota:'Evaluación médica realizada a distancia gracias a tecnología.' },
+      { en:'cloud computing',       es:'computación en la nube',         nota:'Almacenamiento y procesamiento de datos en servidores remotos accesibles por internet.' },
+      { en:'machine learning',      es:'aprendizaje automático',         nota:'Rama de la IA que permite a los sistemas aprender de datos sin ser programados explícitamente.' },
+      { en:'cyberattack',           es:'ciberataque',                    nota:'Intento malicioso de acceder o dañar sistemas informáticos.' },
+      { en:'privacy',               es:'privacidad',                     nota:'Derecho del usuario a que sus datos médicos no sean accedidos sin autorización.' },
+      { en:'framework',             es:'marco / arquitectura / sistema', nota:'En tecnología: estructura o esquema que organiza los componentes de un sistema.' },
+      { en:'real-time monitoring',  es:'monitoreo en tiempo real',       nota:'Seguimiento continuo e inmediato de parámetros sin demora.' },
+    ]
+  },
+  {
+    id:'t5', label:'Texto 5', titulo:'Dogs & Prefrontal Brain Activity',
+    color:'#fef3c7', colorText:'#92400e',
+    words:[
+      { en:'prefrontal cortex',     es:'corteza prefrontal',             nota:'Zona frontal del cerebro vinculada a funciones cognitivas superiores: atención, decisiones, emociones.' },
+      { en:'near-infrared spectroscopy (NIRS)', es:'espectroscopía de infrarrojo cercano', nota:'Técnica no invasiva que mide la oxigenación cerebral a través del cráneo.' },
+      { en:'oxygenation',           es:'oxigenación',                    nota:'Nivel de oxígeno en la sangre cerebral; mayor oxigenación indica mayor actividad neuronal.' },
+      { en:'human-animal interaction (HAI)', es:'interacción humano-animal', nota:'Campo de estudio sobre los efectos del contacto con animales en el bienestar humano.' },
+      { en:'cortisol',              es:'cortisol',                       nota:'Hormona del estrés; niveles altos indican mayor estrés.' },
+      { en:'randomized controlled trial', es:'ensayo controlado aleatorizado', nota:'Diseño experimental donde los participantes se asignan al azar a grupos. Gold standard en investigación.' },
+      { en:'baseline',              es:'línea de base / medición inicial', nota:'Medición tomada antes de la intervención, para comparar después.' },
+      { en:'cognitive engagement',  es:'compromiso / activación cognitiva', nota:'Grado en que la mente está activamente procesando información.' },
+      { en:'therapeutic',           es:'terapéutico',                    nota:'Con propósito de tratamiento o mejora de la salud.' },
+      { en:'p-value',               es:'valor p',                        nota:'"p < 0.01" — probabilidad de que el resultado sea por azar. Menor = más significativo.' },
+      { en:'condition',             es:'condición (experimental)',        nota:'Cada uno de los grupos del experimento: "dog-contact condition" vs "control condition".' },
+    ]
+  },
+  {
+    id:'t6', label:'Texto 6', titulo:'Electric Charges in Bumblebees',
+    color:'#ede9fe', colorText:'#4c1d95',
+    words:[
+      { en:'bumblebee',             es:'abejorro',                       nota:'Insecto polinizador del género Bombus, más grande que la abeja común.' },
+      { en:'foraging',              es:'forrajeo / búsqueda de alimento',nota:'Comportamiento de los insectos al buscar y recolectar néctar o polen.' },
+      { en:'electrostatic charge',  es:'carga electrostática',           nota:'Acumulación de electricidad estática en la superficie de un objeto o animal.' },
+      { en:'Faraday cage',          es:'jaula de Faraday',               nota:'Dispositivo metálico que aísla el campo eléctrico; usado para medir cargas.' },
+      { en:'electrometer',          es:'electrómetro',                   nota:'Instrumento para medir cargas eléctricas muy pequeñas.' },
+      { en:'pC (picocoulomb)',       es:'picocoulombio',                  nota:'Unidad de carga eléctrica muy pequeña (10⁻¹² culombios).' },
+      { en:'floral electric field', es:'campo eléctrico floral',         nota:'Campo eléctrico generado naturalmente por las flores, que los insectos pueden detectar.' },
+      { en:'colony',                es:'colonia',                        nota:'Grupo de abejas o abejorros que viven y trabajan juntos.' },
+      { en:'pollinator',            es:'polinizador',                    nota:'Animal o insecto que transfiere polen entre flores.' },
+      { en:'positive charge',       es:'carga positiva',                 nota:'"Bees carried positive charges ranging from 10 to 65 pC." — tipo de carga eléctrica.' },
+      { en:'correlate',             es:'correlacionar',                  nota:'"Charge correlated with number of flowers visited." — relación entre dos variables.' },
+    ]
+  },
+  {
+    id:'t7', label:'Texto 7', titulo:'Artificial Intelligence in Education',
+    color:'#ecfdf5', colorText:'#065f46',
+    words:[
+      { en:'artificial intelligence (AI)', es:'inteligencia artificial', nota:'Rama de la informática que desarrolla sistemas capaces de realizar tareas que requieren inteligencia humana.' },
+      { en:'intelligent tutoring system (ITS)', es:'sistema de tutoría inteligente', nota:'Software educativo que adapta la enseñanza al ritmo y necesidades de cada estudiante.' },
+      { en:'natural language processing (NLP)', es:'procesamiento de lenguaje natural', nota:'Subárea de la IA que permite a las máquinas entender y generar texto humano.' },
+      { en:'learning analytics',    es:'analítica del aprendizaje',      nota:'Uso de datos de estudiantes para comprender y mejorar los procesos educativos.' },
+      { en:'algorithmic bias',      es:'sesgo algorítmico',              nota:'Error sistemático en los resultados de un algoritmo debido a supuestos sesgados en los datos de entrenamiento.' },
+      { en:'equitable access',      es:'acceso equitativo',              nota:'Disponibilidad igualitaria de tecnología para todos los estudiantes, sin importar su contexto.' },
+      { en:'higher education',      es:'educación superior / universitaria', nota:'Nivel educativo posterior al secundario: universidades, institutos.' },
+      { en:'peer-reviewed',         es:'revisado por pares',             nota:'Proceso donde otros expertos evalúan un artículo antes de su publicación.' },
+      { en:'adoption',              es:'adopción (de tecnología)',        nota:'"Before widespread adoption" — incorporación masiva de una tecnología.' },
+      { en:'personalize',           es:'personalizar',                   nota:'Adaptar la experiencia educativa a las necesidades individuales del estudiante.' },
+      { en:'Scopus / Web of Science', es:'bases de datos académicas',    nota:'Repositorios internacionales de artículos científicos peer-reviewed.' },
+    ]
+  },
+  {
+    id:'t8', label:'Texto 8', titulo:'Automated Mechatronic Configuration',
+    color:'#fff7ed', colorText:'#9a3412',
+    words:[
+      { en:'mechatronic system',    es:'sistema mecatrónico',            nota:'Sistema que combina mecánica, electrónica, informática y control automático.' },
+      { en:'automated configuration', es:'configuración automatizada',   nota:'Proceso de generar una configuración de sistema sin intervención manual.' },
+      { en:'behavior model',        es:'modelo de comportamiento',       nota:'Representación formal de cómo se comporta un sistema bajo distintas condiciones.' },
+      { en:'constraint satisfaction programming (CSP)', es:'programación por satisfacción de restricciones', nota:'Técnica donde se definen variables y restricciones, y el algoritmo encuentra una solución válida.' },
+      { en:'SysML',                 es:'SysML (lenguaje de modelado de sistemas)', nota:'Lenguaje gráfico estándar para modelar sistemas complejos en ingeniería.' },
+      { en:'scalability',           es:'escalabilidad',                  nota:'Capacidad de un sistema de crecer en tamaño o carga sin perder rendimiento.' },
+      { en:'customer-specific',     es:'personalizado para el cliente',  nota:'Diseñado según los requerimientos particulares de cada cliente.' },
+      { en:'automotive sector',     es:'sector automotriz / industria del automóvil', nota:'Industria de fabricación y venta de vehículos.' },
+      { en:'validation',            es:'validación',                     nota:'"Validated using three industrial case studies" — verificación de que el sistema funciona correctamente.' },
+      { en:'engineering effort',    es:'esfuerzo de ingeniería',         nota:'Tiempo y recursos que los ingenieros invierten en diseñar o configurar un sistema.' },
+      { en:'deployment',            es:'despliegue / implementación',    nota:'"Potential for industrial deployment" — puesta en marcha del sistema en el entorno real.' },
+      { en:'parameter',             es:'parámetro',                      nota:'Variable de entrada que define el comportamiento o la configuración del sistema.' },
+    ]
+  },
+];
+
+let glosActiveText = 'all';
+
+function buildGlosario() {
+  const filterDiv = document.getElementById('glos-text-filters');
+  TEXTOS_GLOS.forEach(t => {
+    const btn = document.createElement('button');
+    btn.className = 'filter-btn';
+    btn.textContent = t.label;
+    btn.onclick = function(){ filterGlosText(t.id, this); };
+    filterDiv.appendChild(btn);
+  });
+  renderGlosario('all', '');
+}
+
+function filterGlosText(textId, btn) {
+  glosActiveText = textId;
+  document.querySelectorAll('#glos-text-filters .filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderGlosario(textId, document.getElementById('glos-search').value.toLowerCase().trim());
+}
+
+function filterGlosario() {
+  const q = document.getElementById('glos-search').value.toLowerCase().trim();
+  renderGlosario(glosActiveText, q);
+}
+
+function renderGlosario(textId, q) {
+  const container = document.getElementById('glos-container');
+  const textos = textId === 'all' ? TEXTOS_GLOS : TEXTOS_GLOS.filter(t => t.id === textId);
+  let html = '';
+  let total = 0;
+
+  textos.forEach(t => {
+    const words = q
+      ? t.words.filter(w => w.en.toLowerCase().includes(q) || w.es.toLowerCase().includes(q) || w.nota.toLowerCase().includes(q))
+      : t.words;
+    if (!words.length) return;
+    total += words.length;
+
+    html += `<div style="margin-bottom:28px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <span style="background:${t.color};color:${t.colorText};font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;letter-spacing:.3px">${t.label}</span>
+        <span style="font-size:15px;font-weight:600;color:var(--text)">${t.titulo}</span>
+        <span style="font-size:12px;color:var(--text-muted);margin-left:auto">${words.length} términos</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px">`;
+
+    words.forEach(w => {
+      html += `<div style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px;border-left:3px solid ${t.color}">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
+          <span style="font-weight:700;font-size:14px;color:#1e293b">${w.en}</span>
+        </div>
+        <div style="font-size:13px;color:${t.colorText};font-weight:600;margin-bottom:6px">→ ${w.es}</div>
+        <div style="font-size:12px;color:var(--text-muted);line-height:1.5">${w.nota}</div>
+      </div>`;
+    });
+
+    html += `</div></div>`;
+  });
+
+  if (!html) html = '<div style="text-align:center;padding:40px;color:var(--text-muted);font-size:14px">No se encontraron términos</div>';
+  container.innerHTML = html;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════════════════ */
+buildExtracts();
+buildDoc();
+buildKW();
+initDragDrop();
+showFlash();
+buildGlosario();
+</script>
+</body>
+</html>
